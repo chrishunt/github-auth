@@ -1,6 +1,6 @@
-# Github::Auth
+# Github::Auth `WIP`
 
-TODO: Write a gem description
+![](https://raw.github.com/chrishunt/github-auth/master/img/construction.gif)
 
 ## Installation
 
