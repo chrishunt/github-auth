@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'github/pair/version'
+require 'github/auth/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "github-pair"
-  spec.version       = Github::Pair::VERSION
+  spec.name          = "github-auth"
+  spec.version       = Github::Auth::VERSION
   spec.authors       = ["Chris Hunt"]
   spec.email         = ["c@chrishunt.co"]
   spec.description   = %q{TODO: Write a gem description}

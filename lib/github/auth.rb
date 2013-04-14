@@ -1,7 +1,7 @@
-require "github/pair/version"
+require "github/auth/version"
 
 module Github
-  module Pair
+  module Auth
     # Your code goes here...
   end
 end

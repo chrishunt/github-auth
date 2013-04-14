@@ -1,4 +1,4 @@
-# Github::Pair
+# Github::Auth
 
 TODO: Write a gem description
 
@@ -6,7 +6,7 @@ TODO: Write a gem description
 
 Add this line to your application's Gemfile:
 
-    gem 'github-pair'
+    gem 'github-auth'
 
 And then execute:
 
@@ -14,7 +14,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install github-pair
+    $ gem install github-auth
 
 ## Usage
 
