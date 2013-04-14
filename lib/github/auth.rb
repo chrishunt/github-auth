@@ -1,7 +1,2 @@
-require "github/auth/version"
-
-module Github
-  module Auth
-    # Your code goes here...
-  end
-end
+require 'github/auth/version'
+require 'github/auth/keys_client'
