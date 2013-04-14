@@ -32,7 +32,7 @@ def with_mock_github_server
       HTTParty.get(hostname)
       break
     rescue Errno::ECONNREFUSED
-      sleep 0.5
+      # Do nothing, try again
     end
   end
 
