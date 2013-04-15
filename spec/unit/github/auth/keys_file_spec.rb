@@ -113,6 +113,13 @@ describe Github::Auth::KeysFile do
         subject.delete! key
         expect(keys_file.read).to include other_key
       end
+
+      it 'does not leave blank lines' do
+        subject.delete! [key, other_key]
+        blank_lines = keys_file.readlines.select { |line| line =~ /^$\n/ }
+
+        expect(blank_lines).to be_empty
+      end
     end
 
     context 'when the keys file does not have the key' do
