@@ -43,7 +43,7 @@ module Github::Auth
     end
 
     def print_usage
-      puts "usage: github-auth [#{COMMANDS.join '|'}] <username>"
+      puts "usage: gh-auth [#{COMMANDS.join '|'}] <username>"
     end
 
     def print_permission_denied
