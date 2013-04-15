@@ -3,10 +3,10 @@ require 'support/mock_github_server'
 require 'github/auth'
 
 describe Github::Auth::CLI do
-  with_mock_github_server do |mock_server_hostname|
+  with_mock_github_server do |mock_server_hostname, mock_keys|
     let(:hostname) { mock_server_hostname }
     let(:keys_file) { Tempfile.new 'authorized_keys' }
-    let(:keys) { Github::Auth::MockGithubServer::KEYS }
+    let(:keys) { mock_keys }
 
     after { keys_file.unlink }
 
