@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Github::Auth::VERSION
   spec.authors       = ['Chris Hunt']
   spec.email         = ['c@chrishunt.co']
-  spec.description   = %q{Authorize a Github user for ssh access}
-  spec.summary       = %q{Authorize a Github user for ssh access}
+  spec.description   = %q{SSH key management for Github users}
+  spec.summary       = %q{SSH key management for Github users}
   spec.homepage      = 'https://github.com/chrishunt/github-auth'
   spec.license       = 'MIT'
 
