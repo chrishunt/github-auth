@@ -64,6 +64,16 @@ describe Github::Auth::KeysFile do
         expect(keys_file.readlines.count).to eq existing_keys.count
       end
     end
+
+    context 'when the keys file is readonly' do
+      before { File.chmod(0400, keys_file) }
+
+      it 'raises PermissionDeniedError' do
+        expect {
+          subject.write! keys
+        }.to raise_error Github::Auth::KeysFile::PermissionDeniedError
+      end
+    end
   end
 
   describe '#delete!' do
