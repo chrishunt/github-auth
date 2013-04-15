@@ -20,9 +20,9 @@ module Github::Auth
     end
 
     def delete!(keys)
-      content = keys_file_content_without keys
+      new_content = keys_file_content_without keys
 
-      write_keys_file { |keys_file| keys_file.write content }
+      write_keys_file { |keys_file| keys_file.write new_content }
     end
 
     private
