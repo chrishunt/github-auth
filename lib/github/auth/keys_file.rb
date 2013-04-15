@@ -2,7 +2,6 @@ module Github::Auth
   class KeysFile
     attr_reader :path
 
-    KeysRequiredException = Class.new StandardError
 
     DEFAULT_PATH = '~/.ssh/authorized_keys'
 
