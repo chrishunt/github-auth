@@ -30,6 +30,7 @@ module Github::Auth
     end
 
     def on_keys_file(action, message)
+      puts message
       rescue_keys_file_errors { keys_file.send action, keys }
     end
 
