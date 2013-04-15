@@ -11,7 +11,7 @@ module Github::Auth
     end
 
     def write!(keys)
-      append_file do |keys_file|
+      append_keys_file do |keys_file|
         Array(keys).each do |key|
           keys_file.write "\n#{key}" unless keys_file_content.include? key
         end
@@ -20,20 +20,21 @@ module Github::Auth
 
     def delete!(keys)
       content = keys_file_content_without keys
-      write_file { |keys_file| keys_file.write content }
+
+      write_keys_file { |keys_file| keys_file.write content }
     end
 
     private
 
-    def append_file(&block)
-      with_file 'a', block
+    def append_keys_file(&block)
+      with_keys_file 'a', block
     end
 
-    def write_file(&block)
-      with_file 'w', block
+    def write_keys_file(&block)
+      with_keys_file 'w', block
     end
 
-    def with_file(mode, block)
+    def with_keys_file(mode, block)
       File.open(path, mode) { |keys_file| block.call keys_file }
     end
 
