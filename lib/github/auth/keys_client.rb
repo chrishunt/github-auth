@@ -22,7 +22,7 @@ module Github::Auth
     end
 
     def keys
-      @keys ||= github_response.map { |entry| entry.fetch 'key' }
+      @keys ||= Array(github_response).map { |entry| entry.fetch 'key' }
     end
 
     private
