@@ -5,7 +5,7 @@
 
 ## Description
 
-If you decide to [`#pairwithme`](https://twitter.com/search?q=%23pairwithme),
+If you decide to [`#pairwithme`](https://twitter.com/search?q=pairwithme),
 we'll probably be SSHing into my laptop, your laptop, or some laptop in the
 sky. Since I'd rather not send you a password over email or Skype, we'll use
 public key authentication.
