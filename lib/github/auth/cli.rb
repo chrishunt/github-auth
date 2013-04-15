@@ -20,17 +20,17 @@ module Github::Auth
     private
 
     def add
-      rescue_keys_file_errors do
-        puts "Adding #{keys.count} key(s) to '#{keys_file.path}'"
-        keys_file.write! keys
-      end
+      on_keys_file :write!,
+        "Adding #{keys.count} key(s) to '#{keys_file.path}'"
     end
 
     def remove
-      rescue_keys_file_errors do
-        puts "Removing #{keys.count} key(s) from '#{keys_file.path}'"
-        keys_file.delete! keys
-      end
+      on_keys_file :delete!,
+        "Removing #{keys.count} key(s) from '#{keys_file.path}'"
+    end
+
+    def on_keys_file(action, message)
+      rescue_keys_file_errors { keys_file.send action, keys }
     end
 
     def rescue_keys_file_errors
