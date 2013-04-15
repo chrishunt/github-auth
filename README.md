@@ -64,7 +64,7 @@ Public key authentication works with Mac OS by default, but you'll need to get
 your ssh server running. This is done by ticking 'Remote Login' in the
 'Sharing' panel of System Preferences.
 
-![]('https://raw.github.com/chrishunt/github-auth/master/img/mac-os-ssh-sharing.jpg')
+![](https://raw.github.com/chrishunt/github-auth/master/img/mac-os-ssh-sharing.jpg)
 
 Now that SSH is running, make sure you have the correct permissions set for
 your authorized keys.
