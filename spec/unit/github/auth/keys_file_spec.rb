@@ -74,6 +74,16 @@ describe Github::Auth::KeysFile do
         }.to raise_error Github::Auth::KeysFile::PermissionDeniedError
       end
     end
+
+    context 'when the keys file does not exist' do
+      let(:path) { 'not/a/real/file/path' }
+
+      it 'raises FileDoesNotExistError' do
+        expect {
+          subject.write! keys
+        }.to raise_error Github::Auth::KeysFile::FileDoesNotExistError
+      end
+    end
   end
 
   describe '#delete!' do

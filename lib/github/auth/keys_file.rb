@@ -3,6 +3,7 @@ module Github::Auth
     attr_reader :path
 
     PermissionDeniedError = Class.new StandardError
+    FileDoesNotExistError = Class.new StandardError
 
     DEFAULT_PATH = '~/.ssh/authorized_keys'
 
@@ -38,6 +39,8 @@ module Github::Auth
       File.open(path, mode) { |keys_file| block.call keys_file }
     rescue Errno::EACCES => e
       raise PermissionDeniedError.new e
+    rescue Errno::ENOENT => e
+      raise FileDoesNotExistError.new e
     end
 
     def keys_file_content
