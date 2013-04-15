@@ -13,15 +13,15 @@ public key authentication.
 `gh-auth` allows you to easily add and remove any Github user's public ssh keys
 from your [`authorized_keys`](http://en.wikipedia.org/wiki/Ssh-agent) file.
 
-Let's say you'd like to pair with me, just run:
+Let's say you'd like to pair with me. Awesome! To allow me to ssh into your
+machine, just run:
 
 ```bash
 $ gh-auth add chrishunt
 Adding 2 key(s) to '/Users/chris/.ssh/authorized_keys'
 ```
 
-Now I can ssh into your machine! That was easy. When we're done working, you
-can revoke my access with:
+That was easy! When we're done working, you can revoke my access with:
 
 ```bash
 $ gh-auth remove chrishunt
@@ -53,6 +53,9 @@ Install the `github-auth` gem:
 
 ```bash
 $ gem install github-auth
+
+$ gh-auth
+usage: gh-auth [add|remove] <username>
 ```
 
 ### SSH Public Key Authentication (Mac OS X)
