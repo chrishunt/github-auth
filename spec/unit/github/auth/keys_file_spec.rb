@@ -27,6 +27,14 @@ describe Github::Auth::KeysFile do
         expect(subject.path).to eq path
       end
     end
+
+    context 'with an unexpanded path' do
+      let(:path) { '~/my/home/dir' }
+
+      it 'expands the path' do
+        expect(subject.path).to_not include '~'
+      end
+    end
   end
 
   describe '#write!' do

@@ -8,7 +8,7 @@ module Github::Auth
     DEFAULT_PATH = '~/.ssh/authorized_keys'
 
     def initialize(options = {})
-      @path = options[:path] || DEFAULT_PATH
+      @path = File.expand_path(options[:path] || DEFAULT_PATH)
     end
 
     def write!(keys)
