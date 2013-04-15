@@ -8,9 +8,11 @@ module Github::Auth
     GithubUnavailableError = Class.new StandardError
     GithubUserDoesNotExistError = Class.new StandardError
 
+    DEFAULT_HOSTNAME = 'https://api.github.com'
+
     DEFAULT_OPTIONS = {
       username: nil,
-      hostname: 'https://api.github.com'
+      hostname: DEFAULT_HOSTNAME
     }
 
     def initialize(options = {})
