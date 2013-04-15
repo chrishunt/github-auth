@@ -1,22 +1,113 @@
-# Github::Auth `WIP`
+# gh-auth
+[![Travis CI](https://travis-ci.org/chrishunt/github-auth.png)](https://travis-ci.org/chrishunt/github-auth)
+[![Coverage Status](https://coveralls.io/repos/chrishunt/github-auth/badge.png?branch=master)](https://coveralls.io/r/chrishunt/github-auth)
+[![Code Climate](https://codeclimate.com/github/chrishunt/github-auth.png)](https://codeclimate.com/github/chrishunt/github-auth)
 
-![](https://raw.github.com/chrishunt/github-auth/master/img/construction.gif)
+## Description
+
+If you decide to [`#pairwithme`](https://twitter.com/search?q=%23pairwithme),
+we'll probably be SSHing into my laptop, your laptop, or some laptop in the
+sky. Since I'd rather not send you a password over email or Skype, we'll use
+public key authentication.
+
+`gh-auth` allows you to easily add and remove any Github user's public ssh keys
+from your [`authorized_keys`](http://en.wikipedia.org/wiki/Ssh-agent) file.
+
+Let's say you'd like to pair with me, just run:
+
+```bash
+$ gh-auth add chrishunt
+Adding 2 key(s) to '/Users/chris/.ssh/authorized_keys'
+```
+
+Now I can ssh into your machine! That was easy. When we're done working, you
+can revoke my access with:
+
+```bash
+$ gh-auth remove chrishunt
+Removing 2 key(s) from '/Users/chris/.ssh/authorized_keys'
+```
+
+You can add and remove any number of users at the same time.
+
+```bash
+$ gh-auth add chrishunt zachmargolis
+Adding 4 key(s) to '/Users/chris/.ssh/authorized_keys'
+
+$ gh-auth remove chrishunt
+Removing 2 key(s) from '/Users/chris/.ssh/authorized_keys'
+
+$ gh-auth remove zachmargolis
+Removing 2 key(s) from '/Users/chris/.ssh/authorized_keys'
+```
+
+## Usage
+
+```bash
+usage: gh-auth [add|remove] <username>
+```
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Install the `github-auth` gem:
 
-    gem 'github-auth'
+```bash
+$ gem install github-auth
+```
 
-And then execute:
+### SSH Public Key Authentication (Mac OS X)
 
-    $ bundle
+Public key authentication works with Mac OS by default, but you'll need to get
+your ssh server running. This is done by ticking 'Remote Login' in the
+'Sharing' panel of System Preferences.
 
-Or install it yourself as:
+![]('https://raw.github.com/chrishunt/github-auth/master/img/mac-os-ssh-sharing.png')
 
-    $ gem install github-auth
+Now that SSH is running, make sure you have the correct permissions set for
+your authorized keys.
 
-## Usage
+```bash
+$ chmod 700 ~/.ssh
+$ chmod 600 ~/.ssh/authorized_keys
+```
+
+### Verification
+
+If you'd like to verify that everything is working as expected, you can test
+right from your machine.
+
+First, authorized yourself for ssh. (Make sure to replace 'chrishunt' with
+*your* Github username)
+
+```bash
+$ gh-auth add chrishunt
+Adding 2 key(s) to '/Users/chris/.ssh/authorized_keys'
+```
+
+Next, open an SSH session to your machine with public key authentication. It
+should work just fine.
+
+```bash
+$ ssh -o PreferredAuthentications=publickey localhost
+
+(localhost)$
+```
+
+Now remove your public keys from the keys file:
+
+```bash
+$ gh-auth remove chrishunt
+Removing 2 key(s) from '/Users/chris/.ssh/authorized_keys'
+```
+
+You should no longer be able to login to the machine since the keys have been
+removed.
+
+```bash
+$ ssh -o PreferredAuthentications=publickey localhost
+
+> Permission denied (publickey,keyboard-interactive)
+```
 
 ## Contributing
 
