@@ -21,11 +21,11 @@ describe Github::Auth::KeysClient do
     it 'requires a username' do
       expect {
         described_class.new
-      }.to raise_error Github::Auth::KeysClient::UsernameRequiredException
+      }.to raise_error Github::Auth::KeysClient::UsernameRequiredError
 
       expect {
         described_class.new username: nil
-      }.to raise_error Github::Auth::KeysClient::UsernameRequiredException
+      }.to raise_error Github::Auth::KeysClient::UsernameRequiredError
     end
 
     it 'saves the username' do
@@ -81,10 +81,10 @@ describe Github::Auth::KeysClient do
       [SocketError, Errno::ECONNREFUSED].each do |exception|
         before { http_client.stub(:get).and_raise exception }
 
-        it 'raises a GithubUnavailableException' do
+        it 'raises a GithubUnavailableError' do
           expect {
             subject.keys
-          }.to raise_error Github::Auth::KeysClient::GithubUnavailableException
+          }.to raise_error Github::Auth::KeysClient::GithubUnavailableError
         end
       end
     end

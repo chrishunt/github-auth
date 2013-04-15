@@ -4,8 +4,8 @@ module Github::Auth
   class KeysClient
     attr_reader :username, :hostname
 
-    UsernameRequiredException  = Class.new StandardError
-    GithubUnavailableException = Class.new StandardError
+    UsernameRequiredError = Class.new StandardError
+    GithubUnavailableError = Class.new StandardError
     GithubUserDoesNotExistError = Class.new StandardError
 
     DEFAULT_OPTIONS = {
@@ -15,7 +15,7 @@ module Github::Auth
 
     def initialize(options = {})
       options = DEFAULT_OPTIONS.merge options
-      raise UsernameRequiredException unless options.fetch(:username)
+      raise UsernameRequiredError unless options.fetch :username
 
       @username = options.fetch :username
       @hostname = options.fetch :hostname
@@ -32,7 +32,7 @@ module Github::Auth
         raise GithubUserDoesNotExistError if response.code == 404
       response.parsed_response
     rescue SocketError, Errno::ECONNREFUSED => e
-      raise GithubUnavailableException.new e
+      raise GithubUnavailableError.new e
     end
 
     def http_client
