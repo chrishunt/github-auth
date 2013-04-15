@@ -6,6 +6,7 @@ module Github::Auth
 
     UsernameRequiredException  = Class.new StandardError
     GithubUnavailableException = Class.new StandardError
+    GithubUserDoesNotExistError = Class.new StandardError
 
     DEFAULT_OPTIONS = {
       username: nil,
@@ -27,7 +28,9 @@ module Github::Auth
     private
 
     def github_response
-      http_client.get "#{hostname}/users/#{username}/keys"
+      response = http_client.get "#{hostname}/users/#{username}/keys"
+        raise GithubUserDoesNotExistError if response.code == 404
+      response.parsed_response
     rescue SocketError, Errno::ECONNREFUSED => e
       raise GithubUnavailableException.new e
     end

@@ -6,7 +6,14 @@ describe Github::Auth::KeysClient do
 
   let(:username) { 'chrishunt' }
   let(:http_client) { stub('HttpClient', get: response) }
-  let(:response) { stub('HttpResponse').as_null_object }
+  let(:response_code) { 200 }
+  let(:parsed_response) { nil }
+  let(:response) {
+    stub('HTTParty::Response', {
+      code: response_code,
+      parsed_response: parsed_response
+    })
+  }
 
   before { subject.stub(http_client: http_client) }
 
@@ -41,22 +48,32 @@ describe Github::Auth::KeysClient do
     end
 
     context 'when the github user has keys' do
-      let(:response) {[
+      let(:parsed_response) {[
         { 'id' => 123, 'key' => 'BLAHBLAH' },
         { 'id' => 456, 'key' => 'FLARBBLU' }
       ]}
 
       it 'returns the keys' do
-        expected_keys = response.map { |entry| entry.fetch 'key' }
+        expected_keys = parsed_response.map { |entry| entry.fetch 'key' }
         expect(subject.keys).to eq expected_keys
       end
     end
 
     context 'when the github user does not have keys' do
-      let(:response) { [] }
+      let(:parsed_response) { [] }
 
       it 'returns an empty array' do
         expect(subject.keys).to eq []
+      end
+    end
+
+    context 'when the github user does not exist' do
+      let(:response_code) { 404 }
+
+      it 'raises GithubUserDoesNotExistError' do
+        expect {
+          subject.keys
+        }.to raise_error Github::Auth::KeysClient::GithubUserDoesNotExistError
       end
     end
 
