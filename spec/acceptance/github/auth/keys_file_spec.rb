@@ -11,12 +11,17 @@ describe Github::Auth::KeysFile do
     keys_file.write! keys
     expect(tempfile.read).to include keys.join("\n")
 
+    tempfile.rewind
+
     keys_file.delete! keys.first
-    expect(tempfile.read).to_not include keys.first
+    tempfile.read.tap do |tempfile_content|
+      expect(tempfile_content).to_not include keys.first
+      expect(tempfile_content).to include keys.last
+    end
+
+    tempfile.rewind
 
     keys_file.delete! keys.last
-    expect(tempfile.read).to_not include keys.last
-
     expect(tempfile.read).to be_empty
   end
 end
