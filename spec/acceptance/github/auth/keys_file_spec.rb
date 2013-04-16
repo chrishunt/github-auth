@@ -6,7 +6,7 @@ describe Github::Auth::KeysFile do
   it 'writes and deletes keys from the keys file' do
     tempfile  = Tempfile.new 'authorized_keys'
     keys_file = described_class.new path: tempfile.path
-    keys = %w(abc123 def456)
+    keys      = %w(abc123 def456)
 
     keys_file.write! keys
     expect(tempfile.read).to include keys.join("\n")
