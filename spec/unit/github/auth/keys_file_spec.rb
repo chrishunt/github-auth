@@ -138,7 +138,7 @@ describe Github::Auth::KeysFile do
     context 'when the key has a comment' do
       let(:key)     { 'WW6dx9mW/paKl9pznYypl+X617WHP' }
       let(:comment) { 'this is a comment' }
-      let(:keys)    { ['#{key} #{comment}', 'def456'] }
+      let(:keys)    { ["#{key} #{comment}", 'def456'] }
       let(:other_key) { keys[1] }
 
       it 'removes the key from the keys file' do
