@@ -134,5 +134,21 @@ describe Github::Auth::KeysFile do
         expect(keys_file.read).to eq original_keys_file
       end
     end
+
+    context 'when the key has a comment' do
+      let(:keys) { ['WW6dx9mW/paKl9pznYypl+X617WHP comment', 'def456'] }
+      let(:key) { keys[0].split(' ').first }
+      let(:other_key) { keys[1] }
+
+      it 'removes the key from the keys file' do
+        subject.delete! key
+        expect(keys_file.read).to_not include key
+      end
+
+      it 'does not remove the other key from the keys file' do
+        subject.delete! key
+        expect(keys_file.read).to include other_key
+      end
+    end
   end
 end
