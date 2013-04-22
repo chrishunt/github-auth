@@ -49,7 +49,7 @@ module Github::Auth
 
     def keys_file_content_without(keys)
       keys_file_content.tap do |content|
-        Array(keys).each { |key| content.gsub! key, '' }
+        Array(keys).each { |k| content.gsub! /#{Regexp.escape(k)}( .*)?/, '' }
         content.strip!
       end
     end
