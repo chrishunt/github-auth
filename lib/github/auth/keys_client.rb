@@ -9,6 +9,7 @@ module Github::Auth
     GithubUserDoesNotExistError = Class.new StandardError
 
     DEFAULT_HOSTNAME = 'https://api.github.com'
+    USER_AGENT = "github_auth-#{VERSION}"
 
     DEFAULT_OPTIONS = {
       username: nil,
@@ -30,7 +31,7 @@ module Github::Auth
     private
 
     def github_response
-      response = http_client.get "#{hostname}/users/#{username}/keys"
+      response = http_client.get("#{hostname}/users/#{username}/keys", :headers => headers)
         raise GithubUserDoesNotExistError if response.code == 404
       response.parsed_response
     rescue SocketError, Errno::ECONNREFUSED => e
@@ -39,6 +40,10 @@ module Github::Auth
 
     def http_client
       HTTParty
+    end
+
+    def headers
+      {"User-Agent" => USER_AGENT}
     end
   end
 end
