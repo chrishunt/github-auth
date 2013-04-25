@@ -55,7 +55,7 @@ Install the `github-auth` gem:
 $ gem install github-auth
 
 $ gh-auth
-usage: gh-auth [add|remove] <username>
+usage: gh-auth [--version] [add|remove] <username>
 ```
 
 ### SSH Public Key Authentication (Mac OS X)
