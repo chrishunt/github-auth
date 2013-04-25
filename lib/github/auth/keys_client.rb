@@ -31,8 +31,10 @@ module Github::Auth
     private
 
     def github_response
-      response = http_client.get("#{hostname}/users/#{username}/keys", headers: headers)
-        raise GithubUserDoesNotExistError if response.code == 404
+      response = http_client.get(
+        "#{hostname}/users/#{username}/keys", headers: headers
+      )
+      raise GithubUserDoesNotExistError if response.code == 404
       response.parsed_response
     rescue SocketError, Errno::ECONNREFUSED => e
       raise GithubUnavailableError.new e
@@ -43,7 +45,7 @@ module Github::Auth
     end
 
     def headers
-      {"User-Agent" => USER_AGENT}
+      { 'User-Agent' => USER_AGENT }
     end
   end
 end
