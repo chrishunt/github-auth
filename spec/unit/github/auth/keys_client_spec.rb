@@ -37,7 +37,8 @@ describe Github::Auth::KeysClient do
   describe '#keys' do
     it 'requests keys from the Github API' do
       http_client.should_receive(:get).with(
-        "https://api.github.com/users/#{username}/keys"
+        "https://api.github.com/users/#{username}/keys",
+        {:headers=>{"User-Agent"=>"github_auth-#{Github::Auth::VERSION}"}}
       )
       subject.keys
     end
