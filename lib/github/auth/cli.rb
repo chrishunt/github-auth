@@ -12,6 +12,8 @@ module Github::Auth
     def execute
       if COMMANDS.include?(command) && !usernames.empty?
         send command
+      elsif command == '--version'
+        print_version
       else
         print_usage
       end
@@ -43,7 +45,11 @@ module Github::Auth
     end
 
     def print_usage
-      puts "usage: gh-auth [#{COMMANDS.join '|'}] <username>"
+      puts "usage: gh-auth [--version] [#{COMMANDS.join '|'}] <username>"
+    end
+
+    def print_version
+      puts "gh-auth version #{Github::Auth::VERSION}"
     end
 
     def print_permission_denied
