@@ -44,7 +44,7 @@ Removing 2 key(s) from '/Users/chris/.ssh/authorized_keys'
 ## Usage
 
 ```bash
-usage: gh-auth [add|remove] <username>
+usage: gh-auth [--version] [add|remove] <username>
 ```
 
 ## Installation
