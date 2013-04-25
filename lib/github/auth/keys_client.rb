@@ -31,7 +31,7 @@ module Github::Auth
     private
 
     def github_response
-      response = http_client.get("#{hostname}/users/#{username}/keys", :headers => headers)
+      response = http_client.get("#{hostname}/users/#{username}/keys", headers: headers)
         raise GithubUserDoesNotExistError if response.code == 404
       response.parsed_response
     rescue SocketError, Errno::ECONNREFUSED => e
