@@ -8,7 +8,7 @@
 If you agree to [\#pairwithme](https://twitter.com/search?q=pairwithme), we'll
 probably be SSHing into my laptop, your laptop, or some laptop in the sky.
 Sharing passwords over email is no fun, so we'll use public key authentication
-to keep things fun, fast, and **secure**
+to keep things fun, fast, and secure.
 
 `gh-auth` allows you to quickly add and remove any Github user's public ssh
 keys from your [`authorized_keys`](http://en.wikipedia.org/wiki/Ssh-agent)
