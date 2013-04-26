@@ -5,16 +5,19 @@
 
 ## Description
 
-If you decide to [`#pairwithme`](https://twitter.com/search?q=pairwithme),
-we'll probably be SSHing into my laptop, your laptop, or some laptop in the
-sky. Since I'd rather not send you a password over email or Skype, we'll use
-public key authentication.
+If you agree to [\#pairwithme](https://twitter.com/search?q=pairwithme), we'll
+probably be SSHing into my laptop, your laptop, or some laptop in the sky.
+Sharing passwords over email is no fun, so we'll use public key authentication
+to keep things fun, fast, and **secure**
 
-`gh-auth` allows you to easily add and remove any Github user's public ssh keys
-from your [`authorized_keys`](http://en.wikipedia.org/wiki/Ssh-agent) file.
+`gh-auth` allows you to quickly add and remove any Github user's public ssh
+keys from your [`authorized_keys`](http://en.wikipedia.org/wiki/Ssh-agent)
+file.
 
-Let's say you'd like to pair with me. Awesome! To allow me to ssh into your
-machine, just run:
+Let's see how this works.
+
+After you've [installed](#installation) `gh-auth`, you can give me ssh access
+with:
 
 ```bash
 $ gh-auth add chrishunt
