@@ -80,7 +80,7 @@ $ chmod 600 ~/.ssh/authorized_keys
 ### Verification
 
 If you'd like to verify that everything is working as expected, you can test
-right from your machine.
+locally on your own machine.
 
 First, authorized yourself for ssh. (Make sure to replace 'chrishunt' with
 *your* Github username)
@@ -90,8 +90,8 @@ $ gh-auth add chrishunt
 Adding 2 key(s) to '/Users/chris/.ssh/authorized_keys'
 ```
 
-Next, open an SSH session to your machine with public key authentication. It
-should work just fine.
+Now that your keys are added, verify that you can open an SSH session to your
+machine with public key authentication:
 
 ```bash
 $ ssh -o PreferredAuthentications=publickey localhost
@@ -99,15 +99,15 @@ $ ssh -o PreferredAuthentications=publickey localhost
 (localhost)$
 ```
 
-Now remove your public keys from the keys file:
+Next, remove your public keys from the keys file:
 
 ```bash
 $ gh-auth remove chrishunt
 Removing 2 key(s) from '/Users/chris/.ssh/authorized_keys'
 ```
 
-You should no longer be able to login to the machine since the keys have been
-removed.
+Since you've removed your keys, verify now that you can no longer login to your
+machine with public key authentication:
 
 ```bash
 $ ssh -o PreferredAuthentications=publickey localhost
