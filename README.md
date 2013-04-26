@@ -169,7 +169,7 @@ ssh -p <port> username@external-ip-address
 
 Yes! A nice solution to this is to have a machine **somewhere else** that both
 of you can ssh into. Place this machine on a network that you *do* have the
-ability to forward ports. Maybe this machine is at home, a friends house, or
+ability to forward ports. Maybe this machine is at home, a friend's house, or
 at a company your worked for in the past that forgot to turn it off.
 
 If this isn't possible, then you can use a VPS provider like
