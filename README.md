@@ -115,6 +115,66 @@ $ ssh -o PreferredAuthentications=publickey localhost
 > Permission denied (publickey,keyboard-interactive)
 ```
 
+## Troubleshooting
+
+### How do people actually connect to my machine?
+
+Good question! Others will connect to your machine using ssh:
+
+```bash
+$ ssh username@external-ip-address
+```
+
+### What username do I use?
+
+The `username` is going to be the same username that you used to add the keys.
+In most cases, it's a good idea to create a new `pair` account and use that
+account for all pairings. You don't want strangers reading your email!
+
+Once you've created the pair account, you can switch to it yourself in a
+terminal with:
+
+```bash
+$ su - pair
+```
+
+### How do I get my external IP?
+
+You can get your external IP address with:
+
+```bash
+$ curl http://remote-ip.herokuapp.com
+```
+
+### It's still not working! :(
+
+In almost all cases, your laptop is not directly plugged into your modem.
+You're on a wirelress network or plugged directly into a router or switch. This
+means the external IP address that your pair is connecting to is not your
+machine, it's actually your router.
+
+You can tell your router to forward ssh connections to your machine by enabling
+[port forwarding](http://en.wikipedia.org/wiki/Port_forwarding). You will want
+to forward port `22` (ssh) to the local IP address of your machine.
+
+If port `22` is already forwarded to another machine or you want to change
+things up, you can have ssh listen on another port and have your pair connect
+with:
+
+```bash
+ssh -p <port> username@external-ip-address
+```
+
+### I can't enable port forwarding, my boss won't let me. Can I still pair?
+
+Yes! A nice solution to this is to have a machine **somewhere else** that both
+of you can ssh into. Place this machine on a network that you *do* have the
+ability to forward ports. Maybe this machine is at home, a friends house, or
+at a company your worked for in the past that forgot to turn it off.
+
+If this isn't possible, then you can use a VPS provider like
+[Linode](http://www.linode.com) to setup a pairing machine in the cloud.
+
 ## Contributing
 
 1. Fork it
