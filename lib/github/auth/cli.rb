@@ -1,4 +1,5 @@
 module Github::Auth
+  # Command Line Interface for parsing and executing commands
   class CLI
     attr_reader :command, :usernames
 

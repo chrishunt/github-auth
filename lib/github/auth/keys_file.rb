@@ -1,4 +1,5 @@
 module Github::Auth
+  # Write and delete keys from the authorized_keys file
   class KeysFile
     attr_reader :path
 
