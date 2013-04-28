@@ -1,6 +1,7 @@
 require 'httparty'
 
 module Github::Auth
+  # Client for fetching public SSH keys using the Github API
   class KeysClient
     attr_reader :username, :hostname
 
