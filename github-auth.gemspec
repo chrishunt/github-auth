@@ -22,6 +22,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'rspec'
   spec.add_development_dependency 'cane'
+  spec.add_development_dependency 'cane-hashcheck'
   spec.add_development_dependency 'coveralls'
   spec.add_development_dependency 'sinatra'
   spec.add_development_dependency 'thin'
