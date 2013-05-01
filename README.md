@@ -46,8 +46,31 @@ Removing 2 key(s) from '/Users/chris/.ssh/authorized_keys'
 
 ## Usage
 
+### Command Line
+
+`gh-auth` can be used from the command line after the gem has been installed.
+
 ```bash
 usage: gh-auth [--version] [add|remove] <username>
+```
+
+### In You Project
+
+Want to add/remove keys in your project, but not on the command line? That's ok
+too.
+
+```ruby
+require 'github/auth'
+
+# Add keys for GitHub user 'chrishunt'
+Github::Auth::CLI.new(%w(
+  add chrishunt
+)).execute
+
+# Remove keys for GitHub user 'chrishunt'
+Github::Auth::CLI.new(%w(
+  remove chrishunt
+)).execute
 ```
 
 ## Installation
