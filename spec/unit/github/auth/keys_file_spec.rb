@@ -118,6 +118,14 @@ describe Github::Auth::KeysFile do
           end
         end
       end
+
+      it 'does not leave a blank line' do
+        subject.delete! key
+
+        expect(
+          keys_file.readlines.select { |line| line =~ /^$\n/ }
+        ).to be_empty
+      end
     end
 
     context 'when the key is at the beginning of the keys file' do
