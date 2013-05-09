@@ -103,21 +103,21 @@ describe Github::Auth::KeysFile do
     end
 
     context 'when the keys file has the key' do
-      let(:key) { keys[0] }
-      let(:other_key) { keys[1] }
-
       it 'removes the key from the keys file' do
-        subject.delete! key
-        expect(keys_file.read).to_not include key
+        subject.delete! keys.first
+        expect(keys_file.read).to_not include keys.first
       end
 
-      it 'does not remove the other key from the keys file' do
-        subject.delete! key
-        expect(keys_file.read).to include other_key
+      it 'does not remove the other keys from the keys file' do
+        subject.delete! keys.first
+
+        keys_file.read.tap do |keys_file_content|
+          keys.drop(1).each { |key| expect(keys_file_content).to include key }
+        end
       end
 
       it 'does not leave blank lines' do
-        subject.delete! [key, other_key]
+        subject.delete! [keys.first, keys.last]
         blank_lines = keys_file.readlines.select { |line| line =~ /^$\n/ }
 
         expect(blank_lines).to be_empty
