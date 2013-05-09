@@ -90,6 +90,7 @@ describe Github::Auth::KeysFile do
 
       it 'does not write duplicate keys into the keys file' do
         subject.write! existing_keys.first
+
         expect(keys_file.readlines.count).to eq existing_keys.count
       end
     end
