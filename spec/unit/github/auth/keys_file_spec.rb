@@ -102,25 +102,53 @@ describe Github::Auth::KeysFile do
       keys_file.rewind
     end
 
-    context 'when the keys file has the key' do
+    shared_examples_for 'a successful key removal' do
       it 'removes the key from the keys file' do
-        subject.delete! keys.first
-        expect(keys_file.read).to_not include keys.first
+        subject.delete! key
+
+        expect(keys_file.read).to_not include key
       end
 
       it 'does not remove the other keys from the keys file' do
-        subject.delete! keys.first
+        subject.delete! key
 
         keys_file.read.tap do |keys_file_content|
-          keys.drop(1).each { |key| expect(keys_file_content).to include key }
+          keys.reject { |other_key| other_key =~ /#{key}/ }.each do |key|
+            expect(keys_file_content).to include key
+          end
         end
       end
+    end
 
-      it 'does not leave blank lines' do
-        subject.delete! [keys.first, keys.last]
-        blank_lines = keys_file.readlines.select { |line| line =~ /^$\n/ }
+    context 'when the key is at the beginning of the keys file' do
+      let(:key) { keys.first }
 
-        expect(blank_lines).to be_empty
+      it_should_behave_like 'a successful key removal'
+    end
+
+    context 'when the key is in the middle of the keys file' do
+      let(:key) { keys[1] }
+
+      it_should_behave_like 'a successful key removal'
+    end
+
+    context 'when the key is at the end of the keys file' do
+      let(:key) { keys.last }
+
+      it_should_behave_like 'a successful key removal'
+    end
+
+    context 'when the key has a comment' do
+      let(:keys)    {[ 'abc123', "#{key} #{comment}", 'ghi789' ]}
+      let(:key)     { 'def456' }
+      let(:comment) { 'this is a comment' }
+
+      it_should_behave_like 'a successful key removal'
+
+      it 'removes the comment from the keys file' do
+        subject.delete! key
+
+        expect(keys_file.read).to_not include comment
       end
     end
 
@@ -128,34 +156,13 @@ describe Github::Auth::KeysFile do
       let(:key) { 'not-in-the-keys-file' }
 
       it 'does not modify the keys file' do
-        original_keys_file = keys_file.read
-        keys_file.rewind
+        keys_file.read.tap do |original_keys_file_content|
+          keys_file.rewind
 
-        subject.delete! key
+          subject.delete! key
 
-        expect(keys_file.read).to eq original_keys_file
-      end
-    end
-
-    context 'when the key has a comment' do
-      let(:key)     { 'WW6dx9mW/paKl9pznYypl+X617WHP' }
-      let(:comment) { 'this is a comment' }
-      let(:keys)    { ["#{key} #{comment}", 'def456'] }
-      let(:other_key) { keys[1] }
-
-      it 'removes the key from the keys file' do
-        subject.delete! key
-        expect(keys_file.read).to_not include key
-      end
-
-      it 'removes the comment from the keys file' do
-        subject.delete! key
-        expect(keys_file.read).to_not include comment
-      end
-
-      it 'does not remove the other key from the keys file' do
-        subject.delete! key
-        expect(keys_file.read).to include other_key
+          expect(keys_file.read).to eq original_keys_file_content
+        end
       end
     end
   end
