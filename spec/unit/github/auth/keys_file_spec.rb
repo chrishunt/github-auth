@@ -5,7 +5,7 @@ require 'github/auth/keys_file'
 describe Github::Auth::KeysFile do
   subject { described_class.new path: path }
 
-  let(:keys) { %w(abc123 def456) }
+  let(:keys) { %w(abc123 def456 ghi789) }
   let(:keys_file) { Tempfile.new 'authorized_keys' }
   let(:path) { keys_file.path }
 
@@ -40,8 +40,10 @@ describe Github::Auth::KeysFile do
   describe '#write!' do
     it 'writes each key to the keys file' do
       subject.write! keys
-      file_content = keys_file.read
-      keys.each { |key| expect(file_content).to include key }
+
+      keys_file.read.tap do |keys_file_content|
+        keys.each { |key| expect(keys_file_content).to include key }
+      end
     end
 
     context 'with a single key' do
@@ -100,25 +102,61 @@ describe Github::Auth::KeysFile do
       keys_file.rewind
     end
 
-    context 'when the keys file has the key' do
-      let(:key) { keys[0] }
-      let(:other_key) { keys[1] }
-
+    shared_examples_for 'a successful key removal' do
       it 'removes the key from the keys file' do
         subject.delete! key
+
         expect(keys_file.read).to_not include key
       end
 
-      it 'does not remove the other key from the keys file' do
+      it 'does not remove the other keys from the keys file' do
         subject.delete! key
-        expect(keys_file.read).to include other_key
+
+        keys_file.read.tap do |keys_file_content|
+          keys.reject { |other_key| other_key =~ /#{key}/ }.each do |key|
+            expect(keys_file_content).to include key
+          end
+        end
       end
 
-      it 'does not leave blank lines' do
-        subject.delete! [key, other_key]
-        blank_lines = keys_file.readlines.select { |line| line =~ /^$\n/ }
+      it 'does not leave a blank line' do
+        subject.delete! key
 
-        expect(blank_lines).to be_empty
+        expect(
+          keys_file.readlines.select { |line| line =~ /^$\n/ }
+        ).to be_empty
+      end
+    end
+
+    context 'when the key is at the beginning of the keys file' do
+      let(:key) { keys.first }
+
+      it_should_behave_like 'a successful key removal'
+    end
+
+    context 'when the key is in the middle of the keys file' do
+      let(:key) { keys[1] }
+
+      it_should_behave_like 'a successful key removal'
+    end
+
+    context 'when the key is at the end of the keys file' do
+      let(:key) { keys.last }
+
+      it_should_behave_like 'a successful key removal'
+    end
+
+    context 'when the key has a comment' do
+      let(:keys)    {[ 'abc123', "#{key} #{comment}", 'ghi789' ]}
+      let(:key)     { 'def456' }
+      let(:comment) { 'this is a comment' }
+
+      it_should_behave_like 'a successful key removal'
+
+      it 'removes the comment from the keys file' do
+        subject.delete! key
+
+        expect(keys_file.read).to_not include comment
       end
     end
 
@@ -126,34 +164,13 @@ describe Github::Auth::KeysFile do
       let(:key) { 'not-in-the-keys-file' }
 
       it 'does not modify the keys file' do
-        original_keys_file = keys_file.read
-        keys_file.rewind
+        keys_file.read.tap do |original_keys_file_content|
+          keys_file.rewind
 
-        subject.delete! key
+          subject.delete! key
 
-        expect(keys_file.read).to eq original_keys_file
-      end
-    end
-
-    context 'when the key has a comment' do
-      let(:key)     { 'WW6dx9mW/paKl9pznYypl+X617WHP' }
-      let(:comment) { 'this is a comment' }
-      let(:keys)    { ["#{key} #{comment}", 'def456'] }
-      let(:other_key) { keys[1] }
-
-      it 'removes the key from the keys file' do
-        subject.delete! key
-        expect(keys_file.read).to_not include key
-      end
-
-      it 'removes the comment from the keys file' do
-        subject.delete! key
-        expect(keys_file.read).to_not include comment
-      end
-
-      it 'does not remove the other key from the keys file' do
-        subject.delete! key
-        expect(keys_file.read).to include other_key
+          expect(keys_file.read).to eq original_keys_file_content
+        end
       end
     end
   end
