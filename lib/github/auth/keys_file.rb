@@ -38,16 +38,16 @@ module Github::Auth
       with_keys_file 'w', block
     end
 
+    def keys_file_content
+      with_keys_file 'r', Proc.new { |keys_file| keys_file.read }
+    end
+
     def with_keys_file(mode, block)
       File.open(path, mode) { |keys_file| block.call keys_file }
     rescue Errno::EACCES => e
       raise PermissionDeniedError.new e
     rescue Errno::ENOENT => e
       raise FileDoesNotExistError.new e
-    end
-
-    def keys_file_content
-      File.read path
     end
 
     def keys_file_content_without(keys)
