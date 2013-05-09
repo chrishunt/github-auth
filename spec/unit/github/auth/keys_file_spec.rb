@@ -45,6 +45,14 @@ describe Github::Auth::KeysFile do
           keys.each { |key| expect(keys_file_content).to include key }
         end
       end
+
+      it 'does not leave a blank line' do
+        subject.write! keys
+
+        expect(
+          keys_file.readlines.select { |line| line =~ /^$\n/ }
+        ).to be_empty
+      end
     end
 
     context 'with many keys' do
