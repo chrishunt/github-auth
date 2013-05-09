@@ -5,7 +5,7 @@ require 'github/auth/keys_file'
 describe Github::Auth::KeysFile do
   subject { described_class.new path: path }
 
-  let(:keys) { %w(abc123 def456) }
+  let(:keys) { %w(abc123 def456 ghi789) }
   let(:keys_file) { Tempfile.new 'authorized_keys' }
   let(:path) { keys_file.path }
 
