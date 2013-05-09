@@ -5,7 +5,6 @@ require 'github/auth/keys_file'
 describe Github::Auth::KeysFile do
   subject { described_class.new path: path }
 
-  let(:keys) { %w(abc123 def456 ghi789) }
   let(:keys_file) { Tempfile.new 'authorized_keys' }
   let(:path) { keys_file.path }
 
@@ -38,35 +37,47 @@ describe Github::Auth::KeysFile do
   end
 
   describe '#write!' do
-    it 'writes each key to the keys file' do
-      subject.write! keys
+    shared_examples_for 'a successful key addition' do
+      it 'writes the key to the keys file' do
+        subject.write! keys
 
-      keys_file.read.tap do |keys_file_content|
-        keys.each { |key| expect(keys_file_content).to include key }
+        keys_file.read.tap do |keys_file_content|
+          keys.each { |key| expect(keys_file_content).to include key }
+        end
       end
+    end
+
+    context 'with many keys' do
+      let(:keys) { %w(abc123 def456 ghi789) }
+
+      it_should_behave_like 'a successful key addition'
     end
 
     context 'with a single key' do
-      let(:key) { 'abc123' }
+      let(:keys) { %w(abc123) }
 
-      it 'writes the single key to the keys file' do
-        subject.write! key
-        expect(keys_file.read).to include key
-      end
+      it_should_behave_like 'a successful key addition'
     end
 
     context 'with existing keys in the keys file' do
-      let(:existing_keys) { %w(ghi789 jkl123) }
+      let(:existing_keys) { %w(abc123 def456 ghi789) }
+      let(:keys) { %w(jkl012) }
 
       before do
         keys_file.write existing_keys.join("\n")
         keys_file.rewind
       end
 
+      it_should_behave_like 'a successful key addition'
+
       it 'preserves the existing keys' do
         subject.write! keys
-        file_lines = keys_file.readlines
-        existing_keys.each { |key| expect(file_lines).to include "#{key}\n" }
+
+        keys_file.read.tap do |keys_file_content|
+          existing_keys.each do |key|
+            expect(keys_file_content).to include "#{key}\n"
+          end
+        end
       end
 
       it 'does not write duplicate keys into the keys file' do
@@ -80,7 +91,7 @@ describe Github::Auth::KeysFile do
 
       it 'raises PermissionDeniedError' do
         expect {
-          subject.write! keys
+          subject.write! %w(abc123 def456)
         }.to raise_error Github::Auth::KeysFile::PermissionDeniedError
       end
     end
@@ -90,13 +101,15 @@ describe Github::Auth::KeysFile do
 
       it 'raises FileDoesNotExistError' do
         expect {
-          subject.write! keys
+          subject.write! %w(abc123 def456)
         }.to raise_error Github::Auth::KeysFile::FileDoesNotExistError
       end
     end
   end
 
   describe '#delete!' do
+    let(:keys) { %w(abc123 def456 ghi789) }
+
     before do
       keys_file.write keys.join("\n")
       keys_file.rewind
