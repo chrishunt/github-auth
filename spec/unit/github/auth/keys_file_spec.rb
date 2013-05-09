@@ -40,8 +40,10 @@ describe Github::Auth::KeysFile do
   describe '#write!' do
     it 'writes each key to the keys file' do
       subject.write! keys
-      file_content = keys_file.read
-      keys.each { |key| expect(file_content).to include key }
+
+      keys_file.read.tap do |keys_file_content|
+        keys.each { |key| expect(keys_file_content).to include key }
+      end
     end
 
     context 'with a single key' do
