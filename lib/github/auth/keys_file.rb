@@ -13,11 +13,12 @@ module Github::Auth
     end
 
     def write!(keys)
-      append_keys_file do |keys_file|
-        keys_file.write "\n" unless keys_file_content.empty?
-
-        Array(keys).each do |key|
-          keys_file.write "#{key}\n" unless keys_file_content.include? key
+      Array(keys).each do |key|
+        unless keys_file_content.include? key
+          append_keys_file do |keys_file|
+            keys_file.write "\n" unless keys_file_content.empty?
+            keys_file.write key
+          end
         end
       end
     end
