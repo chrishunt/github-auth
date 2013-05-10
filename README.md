@@ -207,4 +207,4 @@ Document](https://github.com/chrishunt/github-auth/blob/master/CONTRIBUTING.md)
 
 ## License
 Copyright (C) 2013 Chris Hunt, [MIT
-License](https://github.com/chrishunt/github-auth/blob/chrishunt/update-readme/LICENSE.txt)
+License](https://github.com/chrishunt/github-auth/blob/master/LICENSE.txt)
