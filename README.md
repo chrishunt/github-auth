@@ -204,3 +204,7 @@ If this isn't possible, then you can use a VPS provider like
 ## Contributing
 Please see the [Contributing
 Document](https://github.com/chrishunt/github-auth/blob/master/CONTRIBUTING.md)
+
+## License
+Copyright (C) 2013 Chris Hunt, [MIT
+License](https://github.com/chrishunt/github-auth/blob/chrishunt/update-readme/LICENSE.txt)
