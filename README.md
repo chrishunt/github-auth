@@ -6,8 +6,8 @@
 
 ### Pairing with strangers has never been so good.
 
-**github-auth** allows you to quickly pair with any GitHub user by adding or
-removing the user's public ssh keys from your
+**github-auth** allows you to quickly pair with anyone who has a GitHub account
+by adding and removing their public ssh keys from your
 [`authorized_keys`](http://en.wikipedia.org/wiki/Ssh-agent) file.
 
 ## Description
