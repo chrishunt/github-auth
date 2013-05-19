@@ -47,6 +47,23 @@ $ gh-auth remove zachmargolis
 Removing 2 key(s) from '/Users/chris/.ssh/authorized_keys'
 ```
 
+## Sections
+
+  1. [Usage](#usage)
+     - [Command Line](#command-line)
+     - [In Your Project](#in-your-project)
+  1. [Installation](#installation)
+     - [SSH Public Key Authentication](#ssh-public-key-authentication-mac-os-x)
+     - [Verification](#verification)
+  1. [Troubleshooting](#troubleshooting)
+     - [How do people actually connect to my machine?](#how-do-people-actually-connect-to-my-machine)
+     - [What username do I use?](#what-username-do-i-use)
+     - [How do I get my external IP?](#how-do-i-get-my-external-ip)
+     - [It's still not working!](#its-still-not-working-)
+     - [I can't enable port forwarding](#i-cant-enable-port-forwarding-my-boss-wont-let-me-can-i-still-pair)
+  1. [Contributing](#contributing)
+  1. [License](#license)
+
 ## Usage
 
 ### Command Line
