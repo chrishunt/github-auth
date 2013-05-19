@@ -74,7 +74,7 @@ Removing 2 key(s) from '/Users/chris/.ssh/authorized_keys'
 usage: gh-auth [--version] [add|remove] <username>
 ```
 
-### In You Project
+### In Your Project
 
 Want to add/remove keys in your project, but not on the command line? That's ok
 too.
