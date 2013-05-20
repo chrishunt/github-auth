@@ -62,6 +62,7 @@ Removing 2 key(s) from '/Users/chris/.ssh/authorized_keys'
      - [It's still not working!](#its-still-not-working-)
      - [I can't enable port forwarding](#i-cant-enable-port-forwarding-my-boss-wont-let-me-can-i-still-pair)
   1. [Contributing](#contributing)
+  1. [Changelog](#changelog)
   1. [License](#license)
 
 ## Usage
@@ -221,6 +222,10 @@ If this isn't possible, then you can use a VPS provider like
 ## Contributing
 Please see the [Contributing
 Document](https://github.com/chrishunt/github-auth/blob/master/CONTRIBUTING.md)
+
+## Changelog
+Please see the [Changelog
+Document](https://github.com/chrishunt/github-auth/blob/chrishunt/master/CHANGELOG.md)
 
 ## License
 Copyright (C) 2013 Chris Hunt, [MIT
