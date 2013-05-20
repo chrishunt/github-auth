@@ -225,7 +225,7 @@ Document](https://github.com/chrishunt/github-auth/blob/master/CONTRIBUTING.md)
 
 ## Changelog
 Please see the [Changelog
-Document](https://github.com/chrishunt/github-auth/blob/chrishunt/master/CHANGELOG.md)
+Document](https://github.com/chrishunt/github-auth/blob/master/CHANGELOG.md)
 
 ## License
 Copyright (C) 2013 Chris Hunt, [MIT
