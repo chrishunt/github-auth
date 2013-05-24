@@ -217,7 +217,10 @@ ability to forward ports. Maybe this machine is at home, a friend's house, or
 at a company your worked for in the past that forgot to turn it off.
 
 If this isn't possible, then you can use a VPS provider like
-[Linode](http://www.linode.com) to setup a pairing machine in the cloud.
+[Linode](http://www.linode.com) to setup a pairing machine in the cloud or a
+tunneling solution like [PageKite](https://pagekite.net) or
+[Hamachi](https://secure.logmein.com/products/hamachi) to make your machine
+accessible without forwarding ports.
 
 ## Contributing
 Please see the [Contributing
