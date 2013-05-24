@@ -217,13 +217,10 @@ ability to forward ports. Maybe this machine is at home, a friend's house, or
 at a company your worked for in the past that forgot to turn it off.
 
 If this isn't possible, then you can use a VPS provider like
-[Linode](http://www.linode.com) to setup a pairing machine in the cloud.
-
-A third option (but more complicated one) is to use
-[PageKite](https://pagekite.net/) on a public server or using their hosted
-service to offer http, https, ssh even VNC access via a public address, and
-connect to that. Obviously this is well out of scope for this readme,
-but it's worth a look if you're really struggling.
+[Linode](http://www.linode.com) to setup a pairing machine in the cloud or a
+tunneling solution like [PageKite](https://pagekite.net) or
+[Hamachi](https://secure.logmein.com/products/hamachi) to make your machine
+accessible without forwarding ports.
 
 ## Contributing
 Please see the [Contributing
