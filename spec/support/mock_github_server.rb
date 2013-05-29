@@ -2,9 +2,14 @@ require 'httparty'
 require 'sinatra/base'
 require 'json'
 
+require 'github/auth/key'
+
 module Github::Auth
   class MockGithubServer < Sinatra::Base
-    KEYS = %w(abc234 def456)
+    KEYS = [
+      Github::Auth::Key.new('chrishunt', 'abc123'),
+      Github::Auth::Key.new('chrishunt', 'def456')
+    ]
 
     set :port, 8001
 
@@ -16,8 +21,8 @@ module Github::Auth
       content_type :json
 
       [
-        { 'id' => 123, 'key' => KEYS[0] },
-        { 'id' => 456, 'key' => KEYS[1] }
+        { 'id' => 123, 'key' => KEYS[0].key },
+        { 'id' => 456, 'key' => KEYS[1].key }
       ].to_json
     end
   end

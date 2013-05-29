@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'github/auth/key'
 require 'github/auth/keys_client'
 
 describe Github::Auth::KeysClient do
@@ -50,12 +51,15 @@ describe Github::Auth::KeysClient do
 
     context 'when the github user has keys' do
       let(:parsed_response) {[
-        { 'id' => 123, 'key' => 'BLAHBLAH' },
-        { 'id' => 456, 'key' => 'FLARBBLU' }
+        { 'id' => 123, 'key' => 'abc123' },
+        { 'id' => 456, 'key' => 'def456' }
       ]}
 
       it 'returns the keys' do
-        expected_keys = parsed_response.map { |entry| entry.fetch 'key' }
+        expected_keys = parsed_response.map do |entry|
+          Github::Auth::Key.new username, entry.fetch('key')
+        end
+
         expect(subject.keys).to eq expected_keys
       end
     end

@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'tempfile'
+require 'github/auth/key'
 require 'github/auth/keys_file'
 
 describe Github::Auth::KeysFile do
@@ -38,11 +39,13 @@ describe Github::Auth::KeysFile do
 
   describe '#write!' do
     shared_examples_for 'a successful key addition' do
-      it 'writes the key to the keys file' do
+      it 'writes the key and github url to the keys file' do
         subject.write! keys
 
         keys_file.read.tap do |keys_file_content|
-          keys.each { |key| expect(keys_file_content).to include key }
+          keys.each do |key|
+            expect(keys_file_content).to include "#{key.key} #{key.url}"
+          end
         end
       end
 
@@ -56,20 +59,24 @@ describe Github::Auth::KeysFile do
     end
 
     context 'with many keys' do
-      let(:keys) { %w(abc123 def456 ghi789) }
+      let(:keys) {[
+        Github::Auth::Key.new('chris', 'abc123'),
+        Github::Auth::Key.new('chris', 'def456'),
+        Github::Auth::Key.new('doug', 'ghi789')
+      ]}
 
       it_should_behave_like 'a successful key addition'
     end
 
     context 'with a single key' do
-      let(:keys) { %w(abc123) }
+      let(:keys) {[ Github::Auth::Key.new('chris', 'abc123') ]}
 
       it_should_behave_like 'a successful key addition'
     end
 
     context 'with existing keys in the keys file' do
       let(:existing_keys) { %w(abc123 def456 ghi789) }
-      let(:keys) { %w(jkl012) }
+      let(:keys) {[ Github::Auth::Key.new('chris', 'jkl012') ]}
 
       before do
         keys_file.write existing_keys.join("\n")
@@ -89,7 +96,7 @@ describe Github::Auth::KeysFile do
       end
 
       it 'does not write duplicate keys into the keys file' do
-        subject.write! existing_keys.first
+        subject.write! Github::Auth::Key.new('chris', existing_keys.first)
 
         expect(keys_file.readlines.count).to eq existing_keys.count
       end
@@ -100,7 +107,7 @@ describe Github::Auth::KeysFile do
 
       it 'raises PermissionDeniedError' do
         expect {
-          subject.write! %w(abc123 def456)
+          subject.write! Github::Auth::Key.new('chris', 'abc123')
         }.to raise_error Github::Auth::KeysFile::PermissionDeniedError
       end
     end
@@ -117,7 +124,11 @@ describe Github::Auth::KeysFile do
   end
 
   describe '#delete!' do
-    let(:keys) { %w(abc123 def456 ghi789) }
+    let(:keys) {[
+      Github::Auth::Key.new('chris', 'abc123'),
+      Github::Auth::Key.new('chris', 'def456'),
+      Github::Auth::Key.new('doug', 'ghi789')
+    ]}
 
     before do
       keys_file.write keys.join("\n")
@@ -128,15 +139,15 @@ describe Github::Auth::KeysFile do
       it 'removes the key from the keys file' do
         subject.delete! key
 
-        expect(keys_file.read).to_not include key
+        expect(keys_file.read).to_not include key.to_s
       end
 
       it 'does not remove the other keys from the keys file' do
         subject.delete! key
 
         keys_file.read.tap do |keys_file_content|
-          keys.reject { |other_key| other_key =~ /#{key}/ }.each do |key|
-            expect(keys_file_content).to include key
+          keys.reject { |other_key| other_key == key }.each do |key|
+            expect(keys_file_content).to include key.to_s
           end
         end
       end
@@ -168,22 +179,8 @@ describe Github::Auth::KeysFile do
       it_should_behave_like 'a successful key removal'
     end
 
-    context 'when the key has a comment' do
-      let(:keys)    {[ 'abc123', "#{key} #{comment}", 'ghi789' ]}
-      let(:key)     { 'def456' }
-      let(:comment) { 'this is a comment' }
-
-      it_should_behave_like 'a successful key removal'
-
-      it 'removes the comment from the keys file' do
-        subject.delete! key
-
-        expect(keys_file.read).to_not include comment
-      end
-    end
-
     context 'when the keys file does not have the key' do
-      let(:key) { 'not-in-the-keys-file' }
+      let(:key) { Github::Auth::Key.new('sallie', 'not-in-the-keys-file') }
 
       it 'does not modify the keys file' do
         keys_file.read.tap do |original_keys_file_content|
