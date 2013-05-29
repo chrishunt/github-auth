@@ -1,5 +1,14 @@
 # Changelog
 
+##v1.1.0
+*2013-05-29*
+
+[\[13 commits\]](https://github.com/chrishunt/github-auth/compare/v1.0.0...v1.1.0)
+
+- Add link to user's GitHub profile as comment on SSH keys
+- Add VPN/tunneling solutions to README
+- Add CHANGELOG
+
 ##v1.0.0
 *2013-05-18*
 
