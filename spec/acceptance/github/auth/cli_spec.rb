@@ -22,8 +22,8 @@ describe Github::Auth::CLI do
     it 'adds and removes keys from the keys file' do
       cli(%w(add chrishunt)).execute
 
-      keys_file.read.tap do |content|
-        keys.each { |key| expect(content).to include key }
+      keys_file.read.tap do |keys_file_content|
+        keys.each { |key| expect(keys_file_content).to include key.to_s }
       end
 
       cli(%w(remove chrishunt)).execute

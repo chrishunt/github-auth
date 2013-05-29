@@ -26,7 +26,9 @@ module Github::Auth
     end
 
     def keys
-      @keys ||= Array(github_response).map { |entry| entry.fetch 'key' }
+      @keys ||= Array(github_response).map do |entry|
+        Github::Auth::Key.new username, entry.fetch('key')
+      end
     end
 
     private
