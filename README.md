@@ -126,7 +126,7 @@ $ chmod 600 ~/.ssh/authorized_keys
 If you'd like to verify that everything is working as expected, you can test
 locally on your own machine.
 
-First, authorized yourself for ssh. (Make sure to replace 'chrishunt' with
+First, authorize yourself for ssh. (Make sure to replace 'chrishunt' with
 *your* Github username)
 
 ```bash
@@ -150,7 +150,7 @@ $ gh-auth remove chrishunt
 Removing 2 key(s) from '/Users/chris/.ssh/authorized_keys'
 ```
 
-Since you've removed your keys, verify now that you can no longer login to your
+Now that you've removed your keys, verify that you can no longer log in to your
 machine with public key authentication:
 
 ```bash
@@ -193,7 +193,7 @@ $ curl http://remote-ip.herokuapp.com
 ### It's still not working! :(
 
 In almost all cases, your laptop is not directly plugged into your modem.
-You're on a wirelress network or plugged directly into a router or switch. This
+You're on a wireless network or plugged directly into a router or switch. This
 means the external IP address that your pair is connecting to is not your
 machine, it's actually your router.
 
@@ -214,7 +214,7 @@ ssh -p <port> username@external-ip-address
 Yes! A nice solution to this is to have a machine **somewhere else** that both
 of you can ssh into. Place this machine on a network that you *do* have the
 ability to forward ports. Maybe this machine is at home, a friend's house, or
-at a company your worked for in the past that forgot to turn it off.
+at a company you worked for in the past that forgot to turn it off.
 
 If this isn't possible, then you can use a VPS provider like
 [Linode](http://www.linode.com) to setup a pairing machine in the cloud or a
