@@ -127,7 +127,7 @@ If you'd like to verify that everything is working as expected, you can test
 locally on your own machine.
 
 First, authorize yourself for ssh. (Make sure to replace 'chrishunt' with
-*your* Github username)
+*your* GitHub username)
 
 ```bash
 $ gh-auth add chrishunt
