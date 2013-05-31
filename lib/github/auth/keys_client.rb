@@ -40,7 +40,7 @@ module Github::Auth
       raise GithubUserDoesNotExistError if response.code == 404
       response.parsed_response
     rescue SocketError, Errno::ECONNREFUSED => e
-      raise GithubUnavailableError.new e
+      raise GithubUnavailableError, e
     end
 
     def http_client

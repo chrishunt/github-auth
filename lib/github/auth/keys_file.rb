@@ -46,9 +46,9 @@ module Github::Auth
     def with_keys_file(mode, block)
       File.open(path, mode) { |keys_file| block.call keys_file }
     rescue Errno::EACCES => e
-      raise PermissionDeniedError.new e
+      raise PermissionDeniedError, e
     rescue Errno::ENOENT => e
-      raise FileDoesNotExistError.new e
+      raise FileDoesNotExistError, e
     end
 
     def keys_file_content_without(keys)
