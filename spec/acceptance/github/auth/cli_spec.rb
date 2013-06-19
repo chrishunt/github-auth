@@ -10,27 +10,55 @@ describe Github::Auth::CLI do
 
     after { keys_file.unlink }
 
-    def cli(argv)
-      described_class.new(argv).tap do |cli|
-        cli.stub(
-          github_hostname: hostname,
-          keys_file_path: keys_file.path
-        )
+    context "without --path option" do
+      def cli(argv)
+        described_class.new(argv).tap do |cli|
+          cli.stub(
+            github_hostname: hostname,
+            keys_file_path: keys_file.path
+          )
+        end
+      end
+
+      it 'adds and removes keys from the keys file' do
+        cli(%w(add chrishunt)).execute
+
+        keys_file.read.tap do |keys_file_content|
+          keys.each { |key| expect(keys_file_content).to include key.to_s }
+        end
+
+        cli(%w(remove chrishunt)).execute
+
+        expect(keys_file.read).to be_empty
+
+        keys_file.unlink
       end
     end
 
-    it 'adds and removes keys from the keys file' do
-      cli(%w(add chrishunt)).execute
-
-      keys_file.read.tap do |keys_file_content|
-        keys.each { |key| expect(keys_file_content).to include key.to_s }
+    context "with --path option" do
+      def cli(argv)
+        described_class.new(argv).tap do |cli|
+          cli.stub(
+            github_hostname: hostname,
+          )
+        end
       end
 
-      cli(%w(remove chrishunt)).execute
+      let(:alt_keys_file) { File.new File.expand_path('~/special_file.txt'), 'r+' }
+      it 'adds and removes keys from the keys file' do
+        cli(%w(add chrishunt --path=~/special_file.txt)).execute
 
-      expect(keys_file.read).to be_empty
+        alt_keys_file.read.tap do |keys_file_content|
+          keys.each { |key| expect(keys_file_content).to include key.to_s }
+        end
+        expect(keys_file.read).to be_empty
 
-      keys_file.unlink
+        cli(%w(remove chrishunt --path=~/special_file.txt)).execute
+
+        expect(alt_keys_file.read).to be_empty
+
+        keys_file.unlink
+      end
     end
   end
 end
