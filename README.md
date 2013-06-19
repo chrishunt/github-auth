@@ -27,6 +27,13 @@ $ gh-auth add chrishunt
 Adding 2 key(s) to '/Users/chris/.ssh/authorized_keys'
 ```
 
+or
+
+```bash
+$ gh-auth --user=pair add chrishunt
+Adding 2 key(s) to '/Users/pair/.ssh/authorized_keys'
+```
+
 That was easy! When we're done working, you can revoke my access with:
 
 ```bash
@@ -72,7 +79,7 @@ Removing 2 key(s) from '/Users/chris/.ssh/authorized_keys'
 `gh-auth` can be used from the command line after the gem has been installed.
 
 ```bash
-usage: gh-auth [--version] [add|remove] <username>
+usage: gh-auth [--version] [--path=/full/path/to/file | --user=local-username] [add|remove] <github-username>
 ```
 
 ### In Your Project
