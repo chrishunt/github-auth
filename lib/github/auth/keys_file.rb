@@ -7,9 +7,12 @@ module Github::Auth
     FileDoesNotExistError = Class.new StandardError
 
     DEFAULT_PATH = '~/.ssh/authorized_keys'
+    TMUX_COMMAND = 'command="/usr/local/bin/tmux attach",' +
+      'no-port-forwarding,no-X11-forwarding,no-agent-forwarding '
 
     def initialize(options = {})
       @path = File.expand_path(options[:path] || DEFAULT_PATH)
+      @tmux = options[:tmux] || false
     end
 
     def write!(keys)
@@ -17,6 +20,7 @@ module Github::Auth
         unless keys_file_content.include? key.key
           append_keys_file do |keys_file|
             keys_file.write "\n" unless keys_file_content.empty?
+            keys_file.write TMUX_COMMAND if @tmux
             keys_file.write key
           end
         end
@@ -54,6 +58,7 @@ module Github::Auth
     def keys_file_content_without(keys)
       keys_file_content.tap do |content|
         Array(keys).each do |key|
+          content.gsub! /#{TMUX_COMMAND}/, ''
           content.gsub! /#{Regexp.escape key.key}( .*)?$\n?/, ''
         end
 

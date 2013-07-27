@@ -4,10 +4,11 @@ require 'github/auth/key'
 require 'github/auth/keys_file'
 
 describe Github::Auth::KeysFile do
-  subject { described_class.new path: path }
+  subject { described_class.new path: path, tmux: tmux }
 
   let(:keys_file) { Tempfile.new 'authorized_keys' }
   let(:path) { keys_file.path }
+  let(:tmux) { false }
 
   after { keys_file.unlink } # clean up, delete tempfile
 
@@ -121,6 +122,24 @@ describe Github::Auth::KeysFile do
         }.to raise_error Github::Auth::KeysFile::FileDoesNotExistError
       end
     end
+
+    context 'when the tmux option is set' do
+      let(:keys) {[ Github::Auth::Key.new('chris', 'abc124') ]}
+      let(:tmux) { true }
+      let(:command) { Github::Auth::KeysFile::TMUX_COMMAND }
+
+      it_should_behave_like 'a successful key addition'
+
+      it 'prefixes the tmux commands when the option is set' do
+        subject.write! keys
+
+        keys_file.read.tap do |keys_file_content|
+          keys.each do |key|
+            expect(keys_file_content).to start_with "#{command}"
+          end
+        end
+      end
+    end
   end
 
   describe '#delete!' do
@@ -143,6 +162,7 @@ describe Github::Auth::KeysFile do
       end
 
       it 'does not remove the other keys from the keys file' do
+
         subject.delete! key
 
         keys_file.read.tap do |keys_file_content|
@@ -189,6 +209,22 @@ describe Github::Auth::KeysFile do
           subject.delete! key
 
           expect(keys_file.read).to eq original_keys_file_content
+        end
+      end
+    end
+
+    context 'when the key starts with the tmux command' do
+      let(:key) { keys.last }
+
+      it 'removes the tmux key' do
+        keys_file.write Github::Auth::KeysFile::TMUX_COMMAND
+        keys_file.write key
+        keys_file.rewind
+
+        subject.delete! key
+        keys_file.read.tap do |key_file_content|
+          expect(key_file_content).to_not include
+            Github::Auth::KeysFile::TMUX_COMMAND
         end
       end
     end

@@ -6,6 +6,7 @@ module Github::Auth
     COMMANDS = %w(add remove)
 
     def initialize(argv)
+      @tmux = argv.delete('--tmux')
       @command   = argv.shift
       @usernames = argv
     end
@@ -46,7 +47,8 @@ module Github::Auth
     end
 
     def print_usage
-      puts "usage: gh-auth [--version] [#{COMMANDS.join '|'}] <username>"
+      puts "usage: gh-auth [--version] [--tmux] " +
+       "[#{COMMANDS.join '|'}] <username>"
     end
 
     def print_version
@@ -81,6 +83,10 @@ module Github::Auth
       @keys ||= usernames.map { |username| keys_for username }.flatten.compact
     end
 
+    def tmux
+      @tmux || false
+    end
+
     def keys_for(username)
       Github::Auth::KeysClient.new(
         hostname: github_hostname,
@@ -93,7 +99,7 @@ module Github::Auth
     end
 
     def keys_file
-      Github::Auth::KeysFile.new path: keys_file_path
+      Github::Auth::KeysFile.new path: keys_file_path, tmux: tmux
     end
 
     def keys_file_path
