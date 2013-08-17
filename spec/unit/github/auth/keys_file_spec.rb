@@ -49,12 +49,10 @@ describe Github::Auth::KeysFile do
         end
       end
 
-      it 'does not leave a blank line' do
+      it 'includes a newline after the last key' do
         subject.write! keys
 
-        expect(
-          keys_file.readlines.select { |line| line =~ /^$\n/ }
-        ).to be_empty
+        expect(keys_file.read).to end_with("\n")
       end
     end
 
@@ -80,6 +78,7 @@ describe Github::Auth::KeysFile do
 
       before do
         keys_file.write existing_keys.join("\n")
+        keys_file.write "\n"
         keys_file.rewind
       end
 
@@ -132,6 +131,7 @@ describe Github::Auth::KeysFile do
 
     before do
       keys_file.write keys.join("\n")
+      keys_file.write "\n"
       keys_file.rewind
     end
 
@@ -152,12 +152,10 @@ describe Github::Auth::KeysFile do
         end
       end
 
-      it 'does not leave a blank line' do
-        subject.delete! key
+      it 'includes a newline after the last key' do
+        subject.write! keys
 
-        expect(
-          keys_file.readlines.select { |line| line =~ /^$\n/ }
-        ).to be_empty
+        expect(keys_file.read).to end_with("\n")
       end
     end
 
