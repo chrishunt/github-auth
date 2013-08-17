@@ -1,3 +1,4 @@
+# :nodoc:
 module Github::Auth
   # Represents a username/key pair from GitHub
   Key = Struct.new(:username, :key) do
