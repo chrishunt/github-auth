@@ -47,5 +47,15 @@ describe Github::Auth::CLI do
         subject.execute
       end
     end
+    context 'with the --path command' do
+      let(:action) { 'add' }
+      let(:argv) { [action, 'chrishunt', '--path=~/special_file.txt'] }
+
+      it 'calls CLI with path arguments' do
+        subject.stub(action)
+        subject.should_receive(:set_path).with("~/special_file.txt")
+        subject.execute
+      end
+    end
   end
 end

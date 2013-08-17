@@ -1,3 +1,4 @@
+require 'optparse'
 module Github::Auth
   # Command Line Interface for parsing and executing commands
   class CLI
@@ -6,14 +7,27 @@ module Github::Auth
     COMMANDS = %w(add remove)
 
     def initialize(argv)
+      @opts = {}
+      OptionParser.new do |opts|
+        opts.on('-u', '--user=USER', 'username to install') do |user|
+          @opts[:path] = "~#{user}/.ssh/authorized_keys"
+        end
+        opts.on('-p', '--path=PATH', 'path to key file') do |path|
+          @opts[:path] = path
+        end
+        opts.on('-v', '--version', 'version of github-auth') do
+          @opts[:version] = true
+        end
+      end.parse!(argv)
       @command   = argv.shift
       @usernames = argv
     end
 
     def execute
       if COMMANDS.include?(command) && !usernames.empty?
+        set_path(@opts[:path]) if @opts[:path]
         send command
-      elsif command == '--version'
+      elsif @opts[:version]
         print_version
       else
         print_usage
@@ -96,8 +110,12 @@ module Github::Auth
       Github::Auth::KeysFile.new path: keys_file_path
     end
 
+    def set_path(path)
+      @path = path
+    end
+
     def keys_file_path
-      Github::Auth::KeysFile::DEFAULT_PATH
+      @path || Github::Auth::KeysFile::DEFAULT_PATH
     end
 
     def github_hostname
