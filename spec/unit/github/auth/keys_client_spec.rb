@@ -6,11 +6,11 @@ describe Github::Auth::KeysClient do
   subject { described_class.new username: username }
 
   let(:username) { 'chrishunt' }
-  let(:http_client) { stub('HttpClient', get: response) }
+  let(:http_client) { double('HttpClient', get: response) }
   let(:response_code) { 200 }
   let(:parsed_response) { nil }
   let(:response) {
-    stub('HTTParty::Response', {
+    double('HTTParty::Response', {
       code: response_code,
       parsed_response: parsed_response
     })
