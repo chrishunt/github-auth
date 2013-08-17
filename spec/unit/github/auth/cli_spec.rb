@@ -47,5 +47,15 @@ describe Github::Auth::CLI do
         subject.execute
       end
     end
+
+    context 'with the --tmux option' do
+      let(:action) { 'add' }
+      let(:argv) { ['--tmux', action, 'chrishunt'] }
+
+      it 'calls the method matching the action name' do
+        subject.should_receive(action)
+        subject.execute
+      end
+    end
   end
 end
