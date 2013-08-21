@@ -159,7 +159,7 @@ describe Github::Auth::KeysFile do
       end
 
       it 'includes a newline after the last key' do
-        subject.write! keys
+        subject.delete! key
 
         expect(keys_file.read).to end_with("\n")
       end
