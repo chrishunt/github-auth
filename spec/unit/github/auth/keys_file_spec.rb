@@ -49,6 +49,12 @@ describe Github::Auth::KeysFile do
         end
       end
 
+      it 'does not include a blank before the first key' do
+        subject.write! keys
+
+        expect(keys_file.read).to_not start_with("\n")
+      end
+
       it 'includes a newline after the last key' do
         subject.write! keys
 
