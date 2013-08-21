@@ -1,5 +1,14 @@
 # Changelog
 
+##v1.2.0
+*2013-08-20*
+
+[\[18 commits\]](https://github.com/chrishunt/github-auth/compare/v1.1.0...v1.2.0)
+
+- [Add a newline at the very end of the keys file](https://github.com/chrishunt/github-auth/pull/9)
+- [Fix RSpec deprecation warnings](https://github.com/chrishunt/github-auth/pull/11)
+- [Add gem versions to gemspec](https://github.com/chrishunt/github-auth/commit/1296e2ebd4e4e13d80775c81ec8ca2ac3710d20c)
+
 ##v1.1.0
 *2013-05-29*
 
