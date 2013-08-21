@@ -16,7 +16,9 @@ module Github::Auth
       Array(keys).each do |key|
         unless keys_file_content.include? key.key
           append_keys_file do |keys_file|
-            keys_file.write "\n" unless keys_file_content.empty? || keys_file_content.end_with?("\n")
+            unless keys_file_content.empty? || keys_file_content.end_with?("\n")
+              keys_file.write "\n"
+            end
             keys_file.write "#{key}\n"
           end
         end
