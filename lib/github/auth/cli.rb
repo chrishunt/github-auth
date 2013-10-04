@@ -3,7 +3,7 @@ module Github::Auth
   class CLI
     attr_reader :command, :usernames
 
-    COMMANDS = %w(add remove)
+    COMMANDS = %w(add remove list)
 
     def initialize(argv)
       @command   = argv.shift
@@ -40,6 +40,10 @@ module Github::Auth
 
       on_keys_file :delete!,
         "Removing #{keys.count} key(s) from '#{keys_file.path}'"
+    end
+
+    def list
+      puts "Added users: #{keys_file.github_users.join(', ')}"
     end
 
     def on_keys_file(action, message)

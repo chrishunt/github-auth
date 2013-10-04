@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'support/capture_stdout'
 require 'support/mock_github_server'
 require 'github/auth'
 
@@ -31,6 +32,16 @@ describe Github::Auth::CLI do
       expect(keys_file.read).to be_empty
 
       keys_file.unlink
+    end
+
+    it 'lists users from the keys file' do
+      cli(%w(add chrishunt)).execute
+
+      output = capture_stdout do
+        cli(%w(list)).execute
+      end
+
+      expect(output).to include('chrishunt')
     end
   end
 end
