@@ -11,7 +11,7 @@ module Github::Auth
     end
 
     def execute
-      if COMMANDS.include?(command) && !usernames.empty?
+      if COMMANDS.include?(command)
         send command
       elsif command == '--version'
         print_version
@@ -23,11 +23,21 @@ module Github::Auth
     private
 
     def add
+      if usernames.empty?
+        print_usage
+        return
+      end
+
       on_keys_file :write!,
         "Adding #{keys.count} key(s) to '#{keys_file.path}'"
     end
 
     def remove
+      if usernames.empty?
+        print_usage
+        return
+      end
+
       on_keys_file :delete!,
         "Removing #{keys.count} key(s) from '#{keys_file.path}'"
     end
