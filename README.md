@@ -99,10 +99,10 @@ too.
 require 'github/auth'
 
 # Add keys for GitHub user 'chrishunt'
-Github::Auth::CLI.new.execute %w(add chrishunt)
+Github::Auth::CLI.new.execute %w(--add chrishunt)
 
 # Remove keys for GitHub user 'chrishunt'
-Github::Auth::CLI.new.execute %w(remove chrishunt)
+Github::Auth::CLI.new.execute %w(--remove chrishunt)
 ```
 
 ## Installation
