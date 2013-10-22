@@ -25,9 +25,6 @@ with:
 ```bash
 $ gh-auth add chrishunt
 Adding 2 key(s) to '/Users/chris/.ssh/authorized_keys'
-
-$ gh-auth list
-Added users: chrishunt, zachmargolis
 ```
 
 That was easy! When we're done working, you can revoke my access with:
@@ -42,6 +39,9 @@ You can add and remove any number of users at the same time.
 ```bash
 $ gh-auth add chrishunt zachmargolis
 Adding 4 key(s) to '/Users/chris/.ssh/authorized_keys'
+
+$ gh-auth list
+Added users: chrishunt, zachmargolis
 
 $ gh-auth remove chrishunt
 Removing 2 key(s) from '/Users/chris/.ssh/authorized_keys'
