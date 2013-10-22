@@ -43,5 +43,13 @@ describe Github::Auth::CLI do
 
       expect(output).to include('chrishunt')
     end
+
+    it 'prints version information' do
+      output = capture_stdout do
+        cli(%w(--version)).execute
+      end
+
+      expect(output).to include Github::Auth::VERSION
+    end
   end
 end

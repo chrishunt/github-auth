@@ -38,14 +38,5 @@ describe Github::Auth::CLI do
         subject.execute
       end
     end
-
-    context 'with the --version command' do
-      let(:argv) { ['--version'] }
-
-      it 'prints version information' do
-        subject.should_receive(:print_version)
-        subject.execute
-      end
-    end
   end
 end
