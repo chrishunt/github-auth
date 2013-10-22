@@ -14,7 +14,7 @@ module Github::Auth
       if COMMANDS.include?(command)
         send command
       elsif command == '--version'
-        print_version
+        puts "gh-auth version #{Github::Auth::VERSION}"
       else
         print_usage
       end
@@ -54,26 +54,10 @@ module Github::Auth
     def rescue_keys_file_errors
       yield
     rescue KeysFile::PermissionDeniedError
-      print_permission_denied
-    rescue KeysFile::FileDoesNotExistError
-      print_file_does_not_exist
-    end
-
-    def print_usage
-      puts "usage: gh-auth [--version] [#{COMMANDS.join '|'}] <username>"
-    end
-
-    def print_version
-      puts "gh-auth version #{Github::Auth::VERSION}"
-    end
-
-    def print_permission_denied
       puts 'Permission denied!'
       puts
       puts "Make sure you have write permissions for '#{keys_file.path}'"
-    end
-
-    def print_file_does_not_exist
+    rescue KeysFile::FileDoesNotExistError
       puts "Keys file does not exist!"
       puts
       puts "Create one now and try again:"
@@ -81,14 +65,8 @@ module Github::Auth
       puts "  $ touch #{keys_file.path}"
     end
 
-    def print_github_user_does_not_exist(username)
-      puts "Github user '#{username}' does not exist"
-    end
-
-    def print_github_unavailable
-      puts "Github appears to be unavailable :("
-      puts
-      puts "https://status.github.com"
+    def print_usage
+      puts "usage: gh-auth [--version] [#{COMMANDS.join '|'}] <username>"
     end
 
     def keys
@@ -101,9 +79,11 @@ module Github::Auth
         username: username
       ).keys
     rescue Github::Auth::KeysClient::GithubUserDoesNotExistError
-      print_github_user_does_not_exist username
+      puts "Github user '#{username}' does not exist"
     rescue Github::Auth::KeysClient::GithubUnavailableError
-      print_github_unavailable
+      puts "Github appears to be unavailable :("
+      puts
+      puts "https://status.github.com"
     end
 
     def keys_file
