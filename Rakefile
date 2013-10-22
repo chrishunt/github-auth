@@ -12,6 +12,7 @@ desc 'Check code quality'
 Cane::RakeTask.new(:quality) do |task|
   task.abc_max = 9
   task.use Cane::HashCheck
+  task.abc_exclude = %w(Auth::Options#initialize)
 end
 
 task default: :spec

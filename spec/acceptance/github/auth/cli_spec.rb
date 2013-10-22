@@ -11,8 +11,8 @@ describe Github::Auth::CLI do
 
     after { keys_file.unlink }
 
-    def cli(argv)
-      described_class.new(argv).tap do |cli|
+    def cli
+      described_class.new.tap do |cli|
         cli.stub(
           github_hostname: hostname,
           keys_file_path: keys_file.path
@@ -21,13 +21,13 @@ describe Github::Auth::CLI do
     end
 
     it 'adds and removes keys from the keys file' do
-      cli(%w(add chrishunt)).execute
+      cli.execute %w(--add chrishunt)
 
       keys_file.read.tap do |keys_file_content|
         keys.each { |key| expect(keys_file_content).to include key.to_s }
       end
 
-      cli(%w(remove chrishunt)).execute
+      cli.execute %w(--remove chrishunt)
 
       expect(keys_file.read).to be_empty
 
@@ -35,10 +35,10 @@ describe Github::Auth::CLI do
     end
 
     it 'lists users from the keys file' do
-      cli(%w(add chrishunt)).execute
+      cli.execute %w(--add chrishunt)
 
       output = capture_stdout do
-        cli(%w(list)).execute
+        cli.execute %w(--list)
       end
 
       expect(output).to include('chrishunt')
@@ -46,16 +46,16 @@ describe Github::Auth::CLI do
 
     it 'prints version information' do
       output = capture_stdout do
-        cli(%w(--version)).execute
+        cli.execute %w(--version)
       end
 
       expect(output).to include Github::Auth::VERSION
     end
 
     it 'prints usage for invalid arguments' do
-      [[], %w(invalid), %w(add)].each do |invalid_arguments|
+      [[], %w(invalid), %w(--add)].each do |invalid_arguments|
         expect(
-          capture_stdout { cli(invalid_arguments).execute }
+          capture_stdout { cli.execute invalid_arguments }
         ).to include 'usage: gh-auth'
       end
     end

@@ -1,49 +1,35 @@
 module Github::Auth
   # Command Line Interface for parsing and executing commands
   class CLI
-    attr_reader :command, :usernames
+    attr_reader :options
 
-    COMMANDS = %w(add remove list)
-
-    def initialize(argv)
-      @command   = argv.shift
-      @usernames = argv
-    end
-
-    def execute
-      if COMMANDS.include?(command)
-        send command
-      elsif command == '--version'
-        puts "gh-auth version #{Github::Auth::VERSION}"
-      else
-        print_usage
-      end
+    def execute(args)
+      @options = Options.new.parse(args)
+      send options.command
     end
 
     private
 
     def add
-      if usernames.empty?
-        print_usage
-        return
-      end
-
       on_keys_file :write!,
         "Adding #{keys.count} key(s) to '#{keys_file.path}'"
     end
 
     def remove
-      if usernames.empty?
-        print_usage
-        return
-      end
-
       on_keys_file :delete!,
         "Removing #{keys.count} key(s) from '#{keys_file.path}'"
     end
 
     def list
       puts "Added users: #{keys_file.github_users.join(', ')}"
+    end
+
+    def version
+      puts Github::Auth::VERSION
+    end
+
+    def usage
+      puts options.usage
     end
 
     def on_keys_file(action, message)
@@ -65,12 +51,8 @@ module Github::Auth
       puts "  $ touch #{keys_file.path}"
     end
 
-    def print_usage
-      puts "usage: gh-auth [--version] [#{COMMANDS.join '|'}] <username>"
-    end
-
     def keys
-      @keys ||= usernames.map { |username| keys_for username }.flatten.compact
+      @keys ||= options.usernames.map { |user| keys_for user }.flatten.compact
     end
 
     def keys_for(username)
