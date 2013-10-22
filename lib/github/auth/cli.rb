@@ -1,49 +1,35 @@
 module Github::Auth
   # Command Line Interface for parsing and executing commands
   class CLI
-    attr_reader :command, :usernames
+    attr_reader :options
 
-    COMMANDS = %w(add remove list)
-
-    def initialize(argv)
-      @command   = argv.shift
-      @usernames = argv
-    end
-
-    def execute
-      if COMMANDS.include?(command)
-        send command
-      elsif command == '--version'
-        print_version
-      else
-        print_usage
-      end
+    def execute(args)
+      @options = Options.new.parse(args)
+      send options.command
     end
 
     private
 
     def add
-      if usernames.empty?
-        print_usage
-        return
-      end
-
       on_keys_file :write!,
         "Adding #{keys.count} key(s) to '#{keys_file.path}'"
     end
 
     def remove
-      if usernames.empty?
-        print_usage
-        return
-      end
-
       on_keys_file :delete!,
         "Removing #{keys.count} key(s) from '#{keys_file.path}'"
     end
 
     def list
       puts "Added users: #{keys_file.github_users.join(', ')}"
+    end
+
+    def version
+      puts Github::Auth::VERSION
+    end
+
+    def usage
+      puts options.usage
     end
 
     def on_keys_file(action, message)
@@ -54,26 +40,10 @@ module Github::Auth
     def rescue_keys_file_errors
       yield
     rescue KeysFile::PermissionDeniedError
-      print_permission_denied
-    rescue KeysFile::FileDoesNotExistError
-      print_file_does_not_exist
-    end
-
-    def print_usage
-      puts "usage: gh-auth [--version] [#{COMMANDS.join '|'}] <username>"
-    end
-
-    def print_version
-      puts "gh-auth version #{Github::Auth::VERSION}"
-    end
-
-    def print_permission_denied
       puts 'Permission denied!'
       puts
       puts "Make sure you have write permissions for '#{keys_file.path}'"
-    end
-
-    def print_file_does_not_exist
+    rescue KeysFile::FileDoesNotExistError
       puts "Keys file does not exist!"
       puts
       puts "Create one now and try again:"
@@ -81,18 +51,8 @@ module Github::Auth
       puts "  $ touch #{keys_file.path}"
     end
 
-    def print_github_user_does_not_exist(username)
-      puts "Github user '#{username}' does not exist"
-    end
-
-    def print_github_unavailable
-      puts "Github appears to be unavailable :("
-      puts
-      puts "https://status.github.com"
-    end
-
     def keys
-      @keys ||= usernames.map { |username| keys_for username }.flatten.compact
+      @keys ||= options.usernames.map { |user| keys_for user }.flatten.compact
     end
 
     def keys_for(username)
@@ -101,9 +61,11 @@ module Github::Auth
         username: username
       ).keys
     rescue Github::Auth::KeysClient::GithubUserDoesNotExistError
-      print_github_user_does_not_exist username
+      puts "Github user '#{username}' does not exist"
     rescue Github::Auth::KeysClient::GithubUnavailableError
-      print_github_unavailable
+      puts "Github appears to be unavailable :("
+      puts
+      puts "https://status.github.com"
     end
 
     def keys_file
