@@ -5,7 +5,7 @@ def capture_stdout
   real_stdout = $stdout
   $stdout = captured_output
   yield
+  captured_output.string
 ensure
   $stdout = real_stdout
-  return captured_output.string
 end
