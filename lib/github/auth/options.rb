@@ -10,7 +10,8 @@ module Github::Auth
         opts.banner = [
           'usage: gh-auth',
           '[--version]',
-          '[add|remove|list]',
+          '[--list]',
+          '[--add|--remove]',
           '<username>'
         ].join(' ')
 
