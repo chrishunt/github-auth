@@ -23,33 +23,36 @@ After you've [installed](#installation) `gh-auth`, you can give me ssh access
 with:
 
 ```bash
-$ gh-auth add chrishunt
+$ gh-auth --add chrishunt
 Adding 2 key(s) to '/Users/chris/.ssh/authorized_keys'
 ```
 
 That was easy! When we're done working, you can revoke my access with:
 
 ```bash
-$ gh-auth remove chrishunt
+$ gh-auth --remove chrishunt
 Removing 2 key(s) from '/Users/chris/.ssh/authorized_keys'
 ```
 
 You can add and remove any number of users at the same time.
 
 ```bash
-$ gh-auth add chrishunt zachmargolis
+$ gh-auth --add chrishunt,zachmargolis
 Adding 4 key(s) to '/Users/chris/.ssh/authorized_keys'
 
-$ gh-auth list
+$ gh-auth --list
 Added users: chrishunt, zachmargolis
 
-$ gh-auth remove chrishunt
+$ gh-auth --remove chrishunt
 Removing 2 key(s) from '/Users/chris/.ssh/authorized_keys'
 
-$ gh-auth remove zachmargolis
+$ gh-auth --list
+Added users: zachmargolis
+
+$ gh-auth --remove zachmargolis
 Removing 2 key(s) from '/Users/chris/.ssh/authorized_keys'
 
-$ gh-auth list
+$ gh-auth --list
 Added users:
 ```
 
@@ -78,7 +81,13 @@ Added users:
 `gh-auth` can be used from the command line after the gem has been installed.
 
 ```bash
-usage: gh-auth [--version] [add|remove|list] <username>
+usage: gh-auth [--version] [--list] [--add|--remove] <username>
+
+options:
+        --add doug,sally             Add GitHub users
+        --remove doug,sally          Remove GitHub users
+        --list                       List all GitHub users added
+        --version                    Show version
 ```
 
 ### In Your Project
@@ -90,14 +99,10 @@ too.
 require 'github/auth'
 
 # Add keys for GitHub user 'chrishunt'
-Github::Auth::CLI.new(%w(
-  add chrishunt
-)).execute
+Github::Auth::CLI.new.execute %w(add chrishunt)
 
 # Remove keys for GitHub user 'chrishunt'
-Github::Auth::CLI.new(%w(
-  remove chrishunt
-)).execute
+Github::Auth::CLI.new.execute %w(remove chrishunt)
 ```
 
 ## Installation
@@ -108,7 +113,13 @@ Install the `github-auth` gem:
 $ gem install github-auth
 
 $ gh-auth
-usage: gh-auth [--version] [add|remove|list] <username>
+usage: gh-auth [--version] [--list] [--add|--remove] <username>
+
+options:
+        --add doug,sally             Add GitHub users
+        --remove doug,sally          Remove GitHub users
+        --list                       List all GitHub users added
+        --version                    Show version
 ```
 
 ### SSH Public Key Authentication (Mac OS X)
@@ -136,7 +147,7 @@ First, authorize yourself for ssh. (Make sure to replace 'chrishunt' with
 *your* GitHub username)
 
 ```bash
-$ gh-auth add chrishunt
+$ gh-auth --add chrishunt
 Adding 2 key(s) to '/Users/chris/.ssh/authorized_keys'
 ```
 
@@ -152,7 +163,7 @@ $ ssh -o PreferredAuthentications=publickey localhost
 Next, remove your public keys from the keys file:
 
 ```bash
-$ gh-auth remove chrishunt
+$ gh-auth --remove chrishunt
 Removing 2 key(s) from '/Users/chris/.ssh/authorized_keys'
 ```
 
