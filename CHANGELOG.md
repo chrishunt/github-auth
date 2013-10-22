@@ -1,5 +1,17 @@
 # Changelog
 
+##v2.0.0
+*2013-10-22*
+
+[\[22 commits\]](https://github.com/chrishunt/github-auth/compare/v1.2.0...v2.0.0)
+
+*note:* Option syntax has changed in this release as a result of switching to
+`OptionParser`. See the [`README`](https://github.com/chrishunt/github-auth/blob/master/README.md)
+for usage instructions.
+
+- [Add `--list` command](https://github.com/chrishunt/github-auth/pull/14)
+- [Use `OptionParser` for parsing CLI options](https://github.com/chrishunt/github-auth/pull/16)
+
 ##v1.2.0
 *2013-08-20*
 
