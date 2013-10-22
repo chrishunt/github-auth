@@ -18,8 +18,7 @@ module Github::Auth
         opts.separator "\noptions:"
 
         opts.on(
-          '--add doug,sally', Array,
-          "GitHub user(s) you'd like to add"
+          '--add doug,sally', Array, 'Add GitHub users'
         ) do |usernames|
           raise OptionParser::MissingArgument if usernames.empty?
           @command = 'add'
@@ -27,15 +26,14 @@ module Github::Auth
         end
 
         opts.on(
-          '--remove doug,sally', Array,
-          "GitHub user(s) you'd like to remove"
+          '--remove doug,sally', Array, 'Remove GitHub users'
         ) do |usernames|
           raise OptionParser::MissingArgument if usernames.empty?
           @command = 'remove'
           @usernames = usernames
         end
 
-        opts.on('--list', "List all GitHub users you've added") do
+        opts.on('--list', 'List all GitHub users added') do
           @command = 'list'
         end
 
