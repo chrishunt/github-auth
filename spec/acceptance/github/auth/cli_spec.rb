@@ -51,5 +51,13 @@ describe Github::Auth::CLI do
 
       expect(output).to include Github::Auth::VERSION
     end
+
+    it 'prints usage for invalid arguments' do
+      [[], %w(invalid), %w(add)].each do |invalid_arguments|
+        expect(
+          capture_stdout { cli(invalid_arguments).execute }
+        ).to include 'usage: gh-auth'
+      end
+    end
   end
 end
