@@ -197,4 +197,22 @@ describe Github::Auth::KeysFile do
       end
     end
   end
+
+  describe '#github_users' do
+    let(:keys) {[
+      Github::Auth::Key.new('jay',   'abc123'),
+      Github::Auth::Key.new('chris', 'def456'),
+      Github::Auth::Key.new('chris', 'ghi789'),
+    ]}
+
+    before do
+      keys_file.write keys.join("\n")
+      keys_file.write "\n"
+      keys_file.rewind
+    end
+
+    it 'returns a uniq, ordered list of github users' do
+      expect(subject.github_users).to eq(%w(chris jay))
+    end
+  end
 end

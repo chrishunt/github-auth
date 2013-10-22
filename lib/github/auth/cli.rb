@@ -3,7 +3,7 @@ module Github::Auth
   class CLI
     attr_reader :command, :usernames
 
-    COMMANDS = %w(add remove)
+    COMMANDS = %w(add remove list)
 
     def initialize(argv)
       @command   = argv.shift
@@ -11,7 +11,7 @@ module Github::Auth
     end
 
     def execute
-      if COMMANDS.include?(command) && !usernames.empty?
+      if COMMANDS.include?(command)
         send command
       elsif command == '--version'
         print_version
@@ -23,13 +23,27 @@ module Github::Auth
     private
 
     def add
+      if usernames.empty?
+        print_usage
+        return
+      end
+
       on_keys_file :write!,
         "Adding #{keys.count} key(s) to '#{keys_file.path}'"
     end
 
     def remove
+      if usernames.empty?
+        print_usage
+        return
+      end
+
       on_keys_file :delete!,
         "Removing #{keys.count} key(s) from '#{keys_file.path}'"
+    end
+
+    def list
+      puts "Added users: #{keys_file.github_users.join(', ')}"
     end
 
     def on_keys_file(action, message)

@@ -31,6 +31,12 @@ module Github::Auth
       write_keys_file { |keys_file| keys_file.write new_content }
     end
 
+    def github_users
+      # http://rubular.com/r/zXCkewmm0i
+      regex = %r{github\.com/(\S+)}
+      keys_file_content.scan(regex).flatten.uniq.sort
+    end
+
     private
 
     def append_keys_file(&block)

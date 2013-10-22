@@ -40,11 +40,17 @@ You can add and remove any number of users at the same time.
 $ gh-auth add chrishunt zachmargolis
 Adding 4 key(s) to '/Users/chris/.ssh/authorized_keys'
 
+$ gh-auth list
+Added users: chrishunt, zachmargolis
+
 $ gh-auth remove chrishunt
 Removing 2 key(s) from '/Users/chris/.ssh/authorized_keys'
 
 $ gh-auth remove zachmargolis
 Removing 2 key(s) from '/Users/chris/.ssh/authorized_keys'
+
+$ gh-auth list
+Added users:
 ```
 
 ## Sections
@@ -72,7 +78,7 @@ Removing 2 key(s) from '/Users/chris/.ssh/authorized_keys'
 `gh-auth` can be used from the command line after the gem has been installed.
 
 ```bash
-usage: gh-auth [--version] [add|remove] <username>
+usage: gh-auth [--version] [add|remove|list] <username>
 ```
 
 ### In Your Project
@@ -102,7 +108,7 @@ Install the `github-auth` gem:
 $ gem install github-auth
 
 $ gh-auth
-usage: gh-auth [--version] [add|remove] <username>
+usage: gh-auth [--version] [add|remove|list] <username>
 ```
 
 ### SSH Public Key Authentication (Mac OS X)
