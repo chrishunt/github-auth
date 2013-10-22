@@ -48,6 +48,9 @@ Removing 2 key(s) from '/Users/chris/.ssh/authorized_keys'
 
 $ gh-auth remove zachmargolis
 Removing 2 key(s) from '/Users/chris/.ssh/authorized_keys'
+
+$ gh-auth list
+Added users:
 ```
 
 ## Sections
