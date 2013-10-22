@@ -32,8 +32,8 @@ module Github::Auth
     end
 
     def github_users
-      # http://rubular.com/r/2LjIGaKObz
-      regex = %r{github\.com/(.+)}
+      # http://rubular.com/r/zXCkewmm0i
+      regex = %r{github\.com/(\S+)}
       keys_file_content.scan(regex).flatten.uniq.sort
     end
 
