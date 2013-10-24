@@ -52,6 +52,12 @@ describe Github::Auth::CLI do
       expect(output).to include Github::Auth::VERSION
     end
 
+    it 'can automatically attach users to a tmux session' do
+      cli.execute %w(--tmux --add chrishunt)
+
+      expect(keys_file.read).to include Github::Auth::KeysFile::TMUX_COMMAND
+    end
+
     it 'prints usage for invalid arguments' do
       [[], %w(invalid), %w(--add)].each do |invalid_arguments|
         expect(

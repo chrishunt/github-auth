@@ -1,14 +1,22 @@
 module Github::Auth
   # Write and delete keys from the authorized_keys file
   class KeysFile
-    attr_reader :path
+    attr_reader :path, :options
 
     PermissionDeniedError = Class.new StandardError
     FileDoesNotExistError = Class.new StandardError
 
     DEFAULT_PATH = '~/.ssh/authorized_keys'
 
+    TMUX_COMMAND = [
+      'command="tmux attach"',
+      'no-port-forwarding',
+      'no-X11-forwarding',
+      'no-agent-forwarding'
+    ].join(',')
+
     def initialize(options = {})
+      @options = options
       @path = File.expand_path(options[:path] || DEFAULT_PATH)
     end
 
@@ -19,7 +27,7 @@ module Github::Auth
             unless keys_file_content.empty? || keys_file_content.end_with?("\n")
               keys_file.write "\n"
             end
-            keys_file.write "#{key}\n"
+            keys_file.write "#{"#{TMUX_COMMAND} " if options[:tmux]}#{key}\n"
           end
         end
       end

@@ -4,9 +4,10 @@ require 'github/auth/key'
 require 'github/auth/keys_file'
 
 describe Github::Auth::KeysFile do
-  subject { described_class.new path: path }
+  subject { described_class.new(options) }
 
   let(:keys_file) { Tempfile.new 'authorized_keys' }
+  let(:options) {{ path: path }}
   let(:path) { keys_file.path }
 
   after { keys_file.unlink } # clean up, delete tempfile
@@ -76,6 +77,19 @@ describe Github::Auth::KeysFile do
       let(:keys) {[ Github::Auth::Key.new('chris', 'abc123') ]}
 
       it_should_behave_like 'a successful key addition'
+    end
+
+    context 'when the tmux option is provided' do
+      let(:options) {{ path: path, tmux: true }}
+      let(:keys) {[ Github::Auth::Key.new('chris', 'abc123') ]}
+
+      it_should_behave_like 'a successful key addition'
+
+      it 'prefixes the key with the tmux command' do
+        subject.write! keys
+
+        expect(keys_file.read).to include Github::Auth::KeysFile::TMUX_COMMAND
+      end
     end
 
     context 'with existing keys in the keys file' do
