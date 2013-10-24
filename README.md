@@ -27,6 +27,14 @@ $ gh-auth --add chrishunt
 Adding 2 key(s) to '/Users/chris/.ssh/authorized_keys'
 ```
 
+If you'd like me to automatically connect to your existing tmux session, then
+provide the `--tmux` option as well:
+
+```bash
+$ gh-auth --tmux --add chrishunt
+Adding 2 key(s) to '/Users/chris/.ssh/authorized_keys'
+```
+
 That was easy! When we're done working, you can revoke my access with:
 
 ```bash
@@ -81,12 +89,13 @@ Added users:
 `gh-auth` can be used from the command line after the gem has been installed.
 
 ```bash
-usage: gh-auth [--version] [--list] [--add|--remove] <username>
+usage: gh-auth [--version] [--list] [--tmux] [--add|--remove] <username>
 
 options:
         --add doug,sally             Add GitHub users
         --remove doug,sally          Remove GitHub users
         --list                       List all GitHub users added
+        --tmux                       Attach user to tmux session
         --version                    Show version
 ```
 
@@ -113,12 +122,13 @@ Install the `github-auth` gem:
 $ gem install github-auth
 
 $ gh-auth
-usage: gh-auth [--version] [--list] [--add|--remove] <username>
+usage: gh-auth [--version] [--list] [--tmux] [--add|--remove] <username>
 
 options:
         --add doug,sally             Add GitHub users
         --remove doug,sally          Remove GitHub users
         --list                       List all GitHub users added
+        --tmux                       Attach user to tmux session
         --version                    Show version
 ```
 
