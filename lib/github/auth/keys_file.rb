@@ -70,7 +70,7 @@ module Github::Auth
     def keys_file_content_without(keys)
       keys_file_content.tap do |content|
         Array(keys).each do |key|
-          content.gsub! /#{Regexp.escape key.key}( .*)?$\n?/, ''
+          content.gsub! /(.*)?#{Regexp.escape key.key}(.*)?$\n?/, ''
         end
 
         content << "\n" unless content.empty? || content.end_with?("\n")

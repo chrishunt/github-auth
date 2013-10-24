@@ -56,6 +56,11 @@ describe Github::Auth::CLI do
       cli.execute %w(--tmux --add chrishunt)
 
       expect(keys_file.read).to include Github::Auth::KeysFile::TMUX_COMMAND
+
+      keys_file.rewind
+      cli.execute %w(--remove chrishunt)
+
+      expect(keys_file.read.strip).to be_empty
     end
 
     it 'prints usage for invalid arguments' do
