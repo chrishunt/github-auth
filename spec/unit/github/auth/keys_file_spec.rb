@@ -79,16 +79,16 @@ describe Github::Auth::KeysFile do
       it_should_behave_like 'a successful key addition'
     end
 
-    context 'when the tmux option is provided' do
-      let(:options) {{ path: path, tmux: true }}
+    context 'with an ssh command' do
+      let(:options) {{ path: path, command: 'tmux attach' }}
       let(:keys) {[ Github::Auth::Key.new('chris', 'abc123') ]}
 
       it_should_behave_like 'a successful key addition'
 
-      it 'prefixes the key with the tmux command' do
+      it 'prefixes the key with the ssh command' do
         subject.write! keys
 
-        expect(keys_file.read).to include Github::Auth::KeysFile::TMUX_COMMAND
+        expect(keys_file.read).to include 'command="tmux attach"'
       end
     end
 

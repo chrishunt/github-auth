@@ -11,7 +11,6 @@ module Github::Auth
           'usage: gh-auth',
           '[--version]',
           '[--list]',
-          '[--tmux]',
           '[--add|--remove]',
           '<username>'
         ].join(' ')
@@ -38,8 +37,10 @@ module Github::Auth
           @command = 'list'
         end
 
-        opts.on('--tmux', 'Attach user to tmux session') do
-          keys_file.merge!(tmux: true)
+        opts.on(
+          '--command "tmux attach"', String, 'Command to execute on login'
+        ) do |command|
+          keys_file_options.merge!(command: command)
         end
 
         opts.on('--version', 'Show version') do
@@ -56,8 +57,8 @@ module Github::Auth
       @usernames ||= []
     end
 
-    def keys_file
-      @keys_file ||= {}
+    def keys_file_options
+      @keys_file_options ||= {}
     end
 
     def usage

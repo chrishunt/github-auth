@@ -73,7 +73,7 @@ module Github::Auth
     end
 
     def keys_file_options
-      options.keys_file.merge path: keys_file_path
+      options.keys_file_options.merge path: keys_file_path
     end
 
     def keys_file_path

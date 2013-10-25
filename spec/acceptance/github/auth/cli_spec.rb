@@ -44,23 +44,23 @@ describe Github::Auth::CLI do
       expect(output).to include('chrishunt')
     end
 
+    it 'supports ssh commands' do
+      cli.execute %w(--add chrishunt --command) << "tmux attach"
+
+      expect(keys_file.read).to include 'command="tmux attach"'
+
+      keys_file.rewind
+      cli.execute %w(--remove chrishunt)
+
+      expect(keys_file.read.strip).to be_empty
+    end
+
     it 'prints version information' do
       output = capture_stdout do
         cli.execute %w(--version)
       end
 
       expect(output).to include Github::Auth::VERSION
-    end
-
-    it 'can automatically attach users to a tmux session' do
-      cli.execute %w(--tmux --add chrishunt)
-
-      expect(keys_file.read).to include Github::Auth::KeysFile::TMUX_COMMAND
-
-      keys_file.rewind
-      cli.execute %w(--remove chrishunt)
-
-      expect(keys_file.read.strip).to be_empty
     end
 
     it 'prints usage for invalid arguments' do
