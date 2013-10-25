@@ -3,6 +3,9 @@ require 'thor'
 module Github::Auth
   # Command Line Interface for parsing and executing commands
   class CLI < Thor
+    class_option :host, type: :string
+    class_option :path, type: :string
+
     option :users, type: :array, required: true
     option :command, type: :string
     desc 'add', 'Add GitHub users to authorized keys'
@@ -104,11 +107,11 @@ module Github::Auth
     end
 
     def keys_file_path
-      Github::Auth::KeysFile::DEFAULT_PATH
+      options[:path] || Github::Auth::KeysFile::DEFAULT_PATH
     end
 
     def github_hostname
-      Github::Auth::KeysClient::DEFAULT_HOSTNAME
+      options[:host] || Github::Auth::KeysClient::DEFAULT_HOSTNAME
     end
   end
 end
