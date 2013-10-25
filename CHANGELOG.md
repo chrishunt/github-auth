@@ -1,5 +1,18 @@
 # Changelog
 
+##v3.0.0
+*2013-10-24*
+
+[\[19 commits\]](https://github.com/chrishunt/github-auth/compare/v2.0.0...v3.0.0)
+
+*note:* CLI syntax has changed in this release as a result of switching to
+[`Thor`](https://github.com/erikhuda/thor). See the
+[`README`](https://github.com/chrishunt/github-auth/blob/master/README.md) for
+usage instructions.
+
+- [Use `Thor` for parsing CLI options](https://github.com/chrishunt/github-auth/pull/18)
+- [Add `--command` option for custom ssh commands](https://github.com/chrishunt/github-auth/pull/18)
+
 ##v2.0.0
 *2013-10-22*
 
