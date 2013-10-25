@@ -53,7 +53,7 @@ module Github::Auth
         \x5> chrishunt, zachmargolis
     LONGDESC
     def list
-      puts keys_file.github_users.join(', ')
+      puts keys_file.github_users.join(' ')
     end
 
     desc 'version', 'Show gh-auth version'

@@ -49,7 +49,7 @@ $ gh-auth add --users=chrishunt zachmargolis
 Adding 4 key(s) to '/Users/chris/.ssh/authorized_keys'
 
 $ gh-auth list
-chrishunt, zachmargolis
+chrishunt zachmargolis
 
 $ gh-auth remove --users=chrishunt
 Removing 2 key(s) from '/Users/chris/.ssh/authorized_keys'
