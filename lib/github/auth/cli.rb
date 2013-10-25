@@ -22,7 +22,7 @@ module Github::Auth
     LONGDESC
     def add
       on_keys_file :write!,
-        "Adding #{keys(options[:users]).count} key(s) to '#{keys_file.path}'",
+        "Adding #{keys.count} key(s) to '#{keys_file.path}'",
         { command: options[:command] }
     end
 
@@ -38,7 +38,7 @@ module Github::Auth
     LONGDESC
     def remove
       on_keys_file :delete!,
-        "Removing #{keys(options[:users]).count} key(s) from '#{keys_file.path}'"
+        "Removing #{keys.count} key(s) from '#{keys_file.path}'"
     end
 
     desc 'list', 'List all GitHub users already added to authorized keys'
@@ -60,8 +60,10 @@ module Github::Auth
 
     private
 
-    def keys(usernames = [])
-      @keys ||= Array(usernames).map { |user| keys_for user }.flatten.compact
+    def keys
+      @keys ||= begin
+        Array(options[:users]).map { |user| keys_for user }.flatten.compact
+      end
     end
 
     def on_keys_file(action, message, options = {})
