@@ -1,3 +1,4 @@
+require 'cgi'
 require 'httparty'
 
 module Github::Auth
@@ -21,7 +22,7 @@ module Github::Auth
       options = DEFAULT_OPTIONS.merge options
       raise UsernameRequiredError unless options.fetch :username
 
-      @username = options.fetch :username
+      @username = CGI.escape(options.fetch :username)
       @hostname = options.fetch :hostname
     end
 

@@ -33,6 +33,11 @@ describe Github::Auth::KeysClient do
       keys_client = described_class.new username: username
       expect(keys_client.username).to eq username
     end
+
+    it 'url escapes the username' do
+      keys_client = described_class.new username: 'spaces are !o.k.'
+      expect(keys_client.username).to eq 'spaces+are+%21o.k.'
+    end
   end
 
   describe '#keys' do
