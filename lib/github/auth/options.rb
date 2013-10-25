@@ -11,11 +11,16 @@ module Github::Auth
           'usage: gh-auth',
           '[--version]',
           '[--list]',
-          '[--add|--remove]',
-          '<username>'
+          '[--add|--remove]', '<username>',
+          '[--command]', '<command>'
         ].join(' ')
 
-        opts.separator "\noptions:"
+        opts.separator ""
+        opts.separator "options:"
+
+        opts.on('--list', 'List all GitHub users added') do
+          @command = 'list'
+        end
 
         opts.on(
           '--add doug,sally', Array, 'Add GitHub users'
@@ -33,17 +38,13 @@ module Github::Auth
           @usernames = usernames
         end
 
-        opts.on('--list', 'List all GitHub users added') do
-          @command = 'list'
-        end
-
         opts.on(
           '--command "tmux attach"', String, 'Command to execute on login'
         ) do |command|
           keys_file_options.merge!(command: command)
         end
 
-        opts.on('--version', 'Show version') do
+        opts.on_tail('--version', 'Show version') do
           @command = 'version'
         end
       end
