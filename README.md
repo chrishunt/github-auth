@@ -88,7 +88,7 @@ $ gh-auth list
 
 `gh-auth` can be used from the command line after the gem has been installed.
 
-```bash
+```
 $ gh-auth
 Commands:
   gh-auth add --users=one two three     # Add GitHub users to authorized keys
@@ -104,7 +104,7 @@ Options:
 
 Use the `help` command for help on a specific command.
 
-```bash
+```
 $ gh-auth help add
 Usage:
   gh-auth add --users=one two three
