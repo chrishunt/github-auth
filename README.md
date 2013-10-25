@@ -64,6 +64,13 @@ $ gh-auth list
 
 ```
 
+If you'd like to remove all GitHub users in one fatal swoop, you can do that
+too.
+
+```bash
+$ gh-auth remove --users=`gh-auth list`
+```
+
 ## Sections
 
   1. [Usage](#usage)
