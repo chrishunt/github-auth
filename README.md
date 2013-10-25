@@ -27,11 +27,11 @@ $ gh-auth --add chrishunt
 Adding 2 key(s) to '/Users/chris/.ssh/authorized_keys'
 ```
 
-If you'd like me to automatically connect to your existing tmux session, then
-provide the `--tmux` option as well:
+If you'd like me to automatically connect to your existing tmux session, you
+can do that with a custom ssh command:
 
 ```bash
-$ gh-auth --tmux --add chrishunt
+$ gh-auth --add chrishunt --command "tmux attach"
 Adding 2 key(s) to '/Users/chris/.ssh/authorized_keys'
 ```
 
