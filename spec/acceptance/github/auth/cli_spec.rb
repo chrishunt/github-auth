@@ -11,23 +11,22 @@ describe Github::Auth::CLI do
 
     after { keys_file.unlink }
 
-    def cli
-      described_class.new.tap do |cli|
-        cli.stub(
-          github_hostname: hostname,
-          keys_file_path: keys_file.path
-        )
-      end
+    def cli(args = [])
+      described_class.start \
+        args + [
+          "--path=#{keys_file.path}",
+          "--host=#{hostname}"
+        ]
     end
 
     it 'adds and removes keys from the keys file' do
-      cli.execute %w(--add chrishunt)
+      cli %w(add --users=chrishunt)
 
       keys_file.read.tap do |keys_file_content|
         keys.each { |key| expect(keys_file_content).to include key.to_s }
       end
 
-      cli.execute %w(--remove chrishunt)
+      cli %w(remove --users=chrishunt)
 
       expect(keys_file.read).to be_empty
 
@@ -35,40 +34,32 @@ describe Github::Auth::CLI do
     end
 
     it 'lists users from the keys file' do
-      cli.execute %w(--add chrishunt)
+      cli %w(add --users=chrishunt)
 
       output = capture_stdout do
-        cli.execute %w(--list)
+        cli %w(list)
       end
 
       expect(output).to include('chrishunt')
     end
 
     it 'supports ssh commands' do
-      cli.execute %w(--add chrishunt --command) << "tmux attach"
+      cli %w(add --users=chrishunt) << '--command=tmux attach'
 
       expect(keys_file.read).to include 'command="tmux attach"'
 
       keys_file.rewind
-      cli.execute %w(--remove chrishunt)
+      cli %w(remove --users=chrishunt)
 
       expect(keys_file.read.strip).to be_empty
     end
 
     it 'prints version information' do
       output = capture_stdout do
-        cli.execute %w(--version)
+        cli %w(version)
       end
 
       expect(output).to include Github::Auth::VERSION
-    end
-
-    it 'prints usage for invalid arguments' do
-      [[], %w(invalid), %w(--add)].each do |invalid_arguments|
-        expect(
-          capture_stdout { cli.execute invalid_arguments }
-        ).to include 'usage: gh-auth'
-      end
     end
   end
 end
