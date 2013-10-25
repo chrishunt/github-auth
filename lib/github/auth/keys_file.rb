@@ -1,7 +1,7 @@
 module Github::Auth
   # Write and delete keys from the authorized_keys file
   class KeysFile
-    attr_reader :path
+    attr_reader :path, :command
 
     PermissionDeniedError = Class.new StandardError
     FileDoesNotExistError = Class.new StandardError
@@ -10,6 +10,7 @@ module Github::Auth
 
     def initialize(options = {})
       @path = File.expand_path(options[:path] || DEFAULT_PATH)
+      @command = options[:command]
     end
 
     def write!(keys)
@@ -19,7 +20,7 @@ module Github::Auth
             unless keys_file_content.empty? || keys_file_content.end_with?("\n")
               keys_file.write "\n"
             end
-            keys_file.write "#{key}\n"
+            keys_file.write "#{"command=\"#{command}\" " if command}#{key}\n"
           end
         end
       end
@@ -62,7 +63,7 @@ module Github::Auth
     def keys_file_content_without(keys)
       keys_file_content.tap do |content|
         Array(keys).each do |key|
-          content.gsub! /#{Regexp.escape key.key}( .*)?$\n?/, ''
+          content.gsub! /(.*)?#{Regexp.escape key.key}(.*)?$\n?/, ''
         end
 
         content << "\n" unless content.empty? || content.end_with?("\n")

@@ -23,37 +23,45 @@ After you've [installed](#installation) `gh-auth`, you can give me ssh access
 with:
 
 ```bash
-$ gh-auth --add chrishunt
+$ gh-auth add --users=chrishunt
+Adding 2 key(s) to '/Users/chris/.ssh/authorized_keys'
+```
+
+If you'd like me to automatically connect to your existing tmux session, you
+can do that with a custom ssh command:
+
+```bash
+$ gh-auth add --users=chrishunt --command="tmux attach"
 Adding 2 key(s) to '/Users/chris/.ssh/authorized_keys'
 ```
 
 That was easy! When we're done working, you can revoke my access with:
 
 ```bash
-$ gh-auth --remove chrishunt
+$ gh-auth remove --users=chrishunt
 Removing 2 key(s) from '/Users/chris/.ssh/authorized_keys'
 ```
 
 You can add and remove any number of users at the same time.
 
 ```bash
-$ gh-auth --add chrishunt,zachmargolis
+$ gh-auth add --users=chrishunt zachmargolis
 Adding 4 key(s) to '/Users/chris/.ssh/authorized_keys'
 
-$ gh-auth --list
-Added users: chrishunt, zachmargolis
+$ gh-auth list
+chrishunt zachmargolis
 
-$ gh-auth --remove chrishunt
+$ gh-auth remove --users=chrishunt
 Removing 2 key(s) from '/Users/chris/.ssh/authorized_keys'
 
-$ gh-auth --list
-Added users: zachmargolis
+$ gh-auth list
+zachmargolis
 
-$ gh-auth --remove zachmargolis
+$ gh-auth remove --users=zachmargolis
 Removing 2 key(s) from '/Users/chris/.ssh/authorized_keys'
 
-$ gh-auth --list
-Added users:
+$ gh-auth list
+
 ```
 
 ## Sections
@@ -80,14 +88,42 @@ Added users:
 
 `gh-auth` can be used from the command line after the gem has been installed.
 
-```bash
-usage: gh-auth [--version] [--list] [--add|--remove] <username>
+```
+$ gh-auth
+Commands:
+  gh-auth add --users=one two three     # Add GitHub users to authorized keys
+  gh-auth help [COMMAND]                # Describe available commands or one specific command
+  gh-auth list                          # List all GitHub users already added to authorized keys
+  gh-auth remove --users=one two three  # Remove GitHub users from authorized keys
+  gh-auth version                       # Show gh-auth version
 
-options:
-        --add doug,sally             Add GitHub users
-        --remove doug,sally          Remove GitHub users
-        --list                       List all GitHub users added
-        --version                    Show version
+Options:
+  [--host=HOST]
+  [--path=PATH]
+```
+
+Use the `help` command for help on a specific command.
+
+```
+$ gh-auth help add
+Usage:
+  gh-auth add --users=one two three
+
+Options:
+  --users=one two three
+  [--command=COMMAND]
+  [--host=HOST]
+  [--path=PATH]
+
+Description:
+  `gh-auth add` is used to add one or more GitHub user's public SSH keys to ~/.ssh/authorized_keys. All keys stored on github.com for that user will be added.
+
+  > $ gh-auth add --users=chrishunt zachmargolis
+  > Adding 6 key(s) to '/Users/chris/.ssh/authorized_keys'
+
+  By default, users will be granted normal shell access. If you'd like to specify an ssh command that should execute when the user connects, use the `--command` option.
+
+  > $ gh-auth add --users=chrishunt --command="tmux attach"
 ```
 
 ### In Your Project
@@ -99,10 +135,10 @@ too.
 require 'github/auth'
 
 # Add keys for GitHub user 'chrishunt'
-Github::Auth::CLI.new.execute %w(--add chrishunt)
+Github::Auth::CLI.start %w(add --users=chrishunt)
 
 # Remove keys for GitHub user 'chrishunt'
-Github::Auth::CLI.new.execute %w(--remove chrishunt)
+Github::Auth::CLI.start %w(remove --users=chrishunt)
 ```
 
 ## Installation
@@ -111,15 +147,6 @@ Install the `github-auth` gem:
 
 ```bash
 $ gem install github-auth
-
-$ gh-auth
-usage: gh-auth [--version] [--list] [--add|--remove] <username>
-
-options:
-        --add doug,sally             Add GitHub users
-        --remove doug,sally          Remove GitHub users
-        --list                       List all GitHub users added
-        --version                    Show version
 ```
 
 ### SSH Public Key Authentication (Mac OS X)
@@ -147,7 +174,7 @@ First, authorize yourself for ssh. (Make sure to replace 'chrishunt' with
 *your* GitHub username)
 
 ```bash
-$ gh-auth --add chrishunt
+$ gh-auth add --users=chrishunt
 Adding 2 key(s) to '/Users/chris/.ssh/authorized_keys'
 ```
 
@@ -163,7 +190,7 @@ $ ssh -o PreferredAuthentications=publickey localhost
 Next, remove your public keys from the keys file:
 
 ```bash
-$ gh-auth --remove chrishunt
+$ gh-auth remove --users=chrishunt
 Removing 2 key(s) from '/Users/chris/.ssh/authorized_keys'
 ```
 
