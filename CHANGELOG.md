@@ -1,5 +1,13 @@
 # Changelog
 
+##v3.0.1
+*2013-10-25*
+
+[\[8 commits\]](https://github.com/chrishunt/github-auth/compare/v3.0.0...v3.0.1)
+
+- [URL escape GitHub usernames](https://github.com/chrishunt/github-auth/pull/20)
+- [Show pretty file permission errors for `list` command](https://github.com/chrishunt/github-auth/pull/21)
+
 ##v3.0.0
 *2013-10-24*
 
