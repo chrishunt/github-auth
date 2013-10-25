@@ -12,6 +12,8 @@ usage instructions.
 
 - [Use `Thor` for parsing CLI options](https://github.com/chrishunt/github-auth/pull/18)
 - [Add `--command` option for custom ssh commands](https://github.com/chrishunt/github-auth/pull/18)
+- [Add `--host` option for specifying GitHub host](https://github.com/chrishunt/github-auth/pull/18)
+- [Add `--path` option for specifying keys file path](https://github.com/chrishunt/github-auth/pull/18)
 
 ##v2.0.0
 *2013-10-22*
