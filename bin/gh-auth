@@ -2,4 +2,4 @@
 
 require 'github/auth'
 
-Github::Auth::CLI.new.execute(ARGV)
+Github::Auth::CLI.start ARGV
