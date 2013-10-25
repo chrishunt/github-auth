@@ -47,6 +47,11 @@ module Github::Auth
         opts.on_tail('--version', 'Show version') do
           @command = 'version'
         end
+
+        opts.on_tail('-h', '--help', '--usage', 'Show this help message') do
+          puts opts.help
+          exit
+        end
       end
     end
 
