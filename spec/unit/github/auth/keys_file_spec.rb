@@ -92,6 +92,19 @@ describe Github::Auth::KeysFile do
       end
     end
 
+    context 'with ssh options' do
+      let(:options) {{ path: path, ssh_options: ['no-way', 'no-how'] }}
+      let(:keys) {[ Github::Auth::Key.new('chris', 'abc123') ]}
+
+      it_should_behave_like 'a successful key addition'
+
+      it 'prefixes the key with the comma-separated ssh options' do
+        subject.write! keys
+
+        expect(keys_file.read).to include 'no-way,no-how'
+      end
+    end
+
     context 'with existing keys in the keys file' do
       let(:existing_keys) { %w(abc123 def456 ghi789) }
       let(:keys) {[ Github::Auth::Key.new('chris', 'jkl012') ]}
