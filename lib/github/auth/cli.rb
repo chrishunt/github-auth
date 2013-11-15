@@ -8,6 +8,7 @@ module Github::Auth
 
     option :users, type: :array, required: true
     option :command, type: :string
+    option :lockdown, type: :boolean
     desc 'add', 'Add GitHub users to authorized keys'
     long_desc <<-LONGDESC
         `gh-auth add` is used to add one or more GitHub user's public SSH keys
@@ -22,11 +23,16 @@ module Github::Auth
         the `--command` option.
 
         > $ gh-auth add --users=chrishunt --command="tmux attach"
+
+        You may also "lockdown" shell access, preventing forwarding, by
+        including the `--lockdown` option.
+
+        > $ gh-auth add --users=chrishunt --lockdown
     LONGDESC
     def add
       on_keys_file :write!,
         "Adding #{keys.count} key(s) to '#{keys_file.path}'",
-        { command: options[:command] }
+        { command: options[:command], lockdown: options[:lockdown] }
     end
 
     option :users, type: :array, required: true
