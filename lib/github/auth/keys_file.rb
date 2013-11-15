@@ -20,7 +20,7 @@ module Github::Auth
             unless keys_file_content.empty? || keys_file_content.end_with?("\n")
               keys_file.write "\n"
             end
-            keys_file.write "#{"command=\"#{command}\" " if command}#{key}\n"
+            keys_file.write key_line(key)
           end
         end
       end
@@ -68,6 +68,19 @@ module Github::Auth
 
         content << "\n" unless content.empty? || content.end_with?("\n")
       end
+    end
+
+    def key_line_prefixes
+      prefixes = []
+      prefixes << %Q{command="#{command}"} if command
+      prefixes.join(',')
+    end
+
+    def key_line(key)
+      line = []
+      line << key_line_prefixes unless key_line_prefixes.empty?
+      line << "#{key}\n"
+      line.join(' ')
     end
   end
 end
