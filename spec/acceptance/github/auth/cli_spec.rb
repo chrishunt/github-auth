@@ -54,6 +54,18 @@ describe Github::Auth::CLI do
       expect(keys_file.read.strip).to be_empty
     end
 
+    it 'supports ssh options' do
+      cli %w(add --users=chrishunt
+                 --ssh-options=no-port-forwarding no-agent-forwarding)
+
+      expect(keys_file.read).to include 'no-port-forwarding,no-agent-forwarding'
+
+      keys_file.rewind
+      cli %w(remove --users=chrishunt)
+
+      expect(keys_file.read.strip).to be_empty
+    end
+
     it 'prints version information' do
       output = capture_stdout do
         cli %w(version)
