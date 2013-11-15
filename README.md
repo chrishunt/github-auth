@@ -35,6 +35,17 @@ $ gh-auth add --users=chrishunt --command="tmux attach"
 Adding 2 key(s) to '/Users/chris/.ssh/authorized_keys'
 ```
 
+Allowing someone to SSH to your machine can be a scary thing. Restricting them
+to a single command goes a little way to help secure things, but if you want to
+keep them from forwarding ports and such, try the lockdown option. It prepends
+their key file entry with `no-port-forwarding,no-X11-forwarding,no-agent-forwarding`
+For more information check out the [8th Chapter of the SSH book](http://oreilly.com/catalog/sshtdg/chapter/ch08.html):
+
+```bash
+$ gh-auth add --users=chrishunt --lockdown
+Adding 2 key(s) to '/Users/chris/.ssh/authorized_keys'
+```
+
 That was easy! When we're done working, you can revoke my access with:
 
 ```bash
