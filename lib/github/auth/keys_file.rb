@@ -1,6 +1,12 @@
 module Github::Auth
   # Write and delete keys from the authorized_keys file
   class KeysFile
+    NO_FORWARDING_OPTIONS = %w(
+      no-port-forwarding
+      no-X11-forwarding
+      no-agent-forwarding
+    )
+
     attr_reader :path, :command, :ssh_options
 
     PermissionDeniedError = Class.new StandardError
@@ -12,6 +18,10 @@ module Github::Auth
       @path = File.expand_path(options[:path] || DEFAULT_PATH)
       @command     = options[:command]
       @ssh_options = Array(options[:ssh_options])
+
+      if options[:no_forwarding]
+        @ssh_options |= NO_FORWARDING_OPTIONS
+      end
     end
 
     def write!(keys)
