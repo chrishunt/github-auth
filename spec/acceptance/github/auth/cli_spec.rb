@@ -66,6 +66,19 @@ describe Github::Auth::CLI do
       expect(keys_file.read.strip).to be_empty
     end
 
+    it 'supports no-forwarding option' do
+      comma_separated_no_forwarding_options =
+        Github::Auth::KeysFile::NO_FORWARDING_OPTIONS.join(',')
+
+      cli %w(add --users=chrishunt --no-forwarding)
+
+      expect(keys_file.read).to include comma_separated_no_forwarding_options
+
+      keys_file.rewind
+      cli %w(remove --users=chrishunt)
+
+    end
+
     it 'prints version information' do
       output = capture_stdout do
         cli %w(version)
