@@ -19,17 +19,13 @@ describe Github::Auth::CLI do
     end
 
     it 'adds and removes keys from the keys file' do
-      Mute::IO.capture_stdout do
-        cli %w(add --users=chrishunt)
-      end
+      cli %w(add --users=chrishunt)
 
       keys_file.read.tap do |keys_file_content|
         keys.each { |key| expect(keys_file_content).to include key.to_s }
       end
 
-      Mute::IO.capture_stdout do
-        cli %w(remove --users=chrishunt)
-      end
+      cli %w(remove --users=chrishunt)
 
       expect(keys_file.read).to be_empty
 
@@ -37,9 +33,7 @@ describe Github::Auth::CLI do
     end
 
     it 'lists users from the keys file' do
-      Mute::IO.capture_stdout do
-        cli %w(add --users=chrishunt)
-      end
+      cli %w(add --users=chrishunt)
 
       output = Mute::IO.capture_stdout do
         cli %w(list)
@@ -49,17 +43,13 @@ describe Github::Auth::CLI do
     end
 
     it 'supports ssh commands' do
-      Mute::IO.capture_stdout do
-        cli %w(add --users=chrishunt) << '--command=tmux attach'
-      end
+      cli %w(add --users=chrishunt) << '--command=tmux attach'
 
       expect(keys_file.read).to include 'command="tmux attach"'
 
       keys_file.rewind
 
-      Mute::IO.capture_stdout do
-        cli %w(remove --users=chrishunt)
-      end
+      cli %w(remove --users=chrishunt)
 
       expect(keys_file.read.strip).to be_empty
     end
