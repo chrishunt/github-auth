@@ -1,5 +1,13 @@
 # Changelog
 
+##v3.0.2
+*2014-01-19*
+
+[\[22 commits\]](https://github.com/chrishunt/github-auth/compare/v3.0.1...v3.0.2)
+
+- [Remove Gemfile.lock from repo, update all gems](https://github.com/chrishunt/github-auth/pull/27)
+- [Mute specs](https://github.com/chrishunt/github-auth/pull/28)
+
 ##v3.0.1
 *2013-10-25*
 
