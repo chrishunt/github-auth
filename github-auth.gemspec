@@ -28,6 +28,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'sinatra', '~> 1.4.3'
   spec.add_development_dependency 'thin', '~> 1.5.1'
 
-  spec.add_runtime_dependency 'httparty', '~> 0.11.0'
+  spec.add_runtime_dependency 'httparty', '~> 0.12.0'
   spec.add_runtime_dependency 'thor', '~> 0.18'
 end
