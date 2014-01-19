@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'support/capture_stdout'
 require 'support/mock_github_server'
 require 'github/auth'
 
@@ -20,13 +19,17 @@ describe Github::Auth::CLI do
     end
 
     it 'adds and removes keys from the keys file' do
-      cli %w(add --users=chrishunt)
+      Mute::IO.capture_stdout do
+        cli %w(add --users=chrishunt)
+      end
 
       keys_file.read.tap do |keys_file_content|
         keys.each { |key| expect(keys_file_content).to include key.to_s }
       end
 
-      cli %w(remove --users=chrishunt)
+      Mute::IO.capture_stdout do
+        cli %w(remove --users=chrishunt)
+      end
 
       expect(keys_file.read).to be_empty
 
@@ -34,9 +37,11 @@ describe Github::Auth::CLI do
     end
 
     it 'lists users from the keys file' do
-      cli %w(add --users=chrishunt)
+      Mute::IO.capture_stdout do
+        cli %w(add --users=chrishunt)
+      end
 
-      output = capture_stdout do
+      output = Mute::IO.capture_stdout do
         cli %w(list)
       end
 
@@ -44,18 +49,23 @@ describe Github::Auth::CLI do
     end
 
     it 'supports ssh commands' do
-      cli %w(add --users=chrishunt) << '--command=tmux attach'
+      Mute::IO.capture_stdout do
+        cli %w(add --users=chrishunt) << '--command=tmux attach'
+      end
 
       expect(keys_file.read).to include 'command="tmux attach"'
 
       keys_file.rewind
-      cli %w(remove --users=chrishunt)
+
+      Mute::IO.capture_stdout do
+        cli %w(remove --users=chrishunt)
+      end
 
       expect(keys_file.read.strip).to be_empty
     end
 
     it 'prints version information' do
-      output = capture_stdout do
+      output = Mute::IO.capture_stdout do
         cli %w(version)
       end
 
