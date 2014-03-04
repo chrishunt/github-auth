@@ -1,4 +1,4 @@
-require 'httparty'
+require 'faraday'
 require 'sinatra/base'
 require 'json'
 
@@ -34,9 +34,9 @@ def with_mock_github_server
 
   while true
     begin
-      HTTParty.get(hostname)
+      Faraday.get hostname
       break
-    rescue Errno::ECONNREFUSED
+    rescue Faraday::ConnectionFailed
       # Do nothing, try again
     end
   end
