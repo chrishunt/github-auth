@@ -8,11 +8,11 @@ describe Github::Auth::KeysClient do
   let(:username) { 'chrishunt' }
   let(:http_client) { double('HttpClient', get: response) }
   let(:response_code) { 200 }
-  let(:parsed_response) { nil }
+  let(:body) { [] }
   let(:response) {
-    double('HTTParty::Response', {
-      code: response_code,
-      parsed_response: parsed_response
+    double('Faraday::Response', {
+      status: response_code,
+      body: JSON.generate(body)
     })
   }
 
@@ -55,13 +55,13 @@ describe Github::Auth::KeysClient do
     end
 
     context 'when the github user has keys' do
-      let(:parsed_response) {[
+      let(:body) {[
         { 'id' => 123, 'key' => 'abc123' },
         { 'id' => 456, 'key' => 'def456' }
       ]}
 
       it 'returns the keys' do
-        expected_keys = parsed_response.map do |entry|
+        expected_keys = body.map do |entry|
           Github::Auth::Key.new username, entry.fetch('key')
         end
 
@@ -70,7 +70,7 @@ describe Github::Auth::KeysClient do
     end
 
     context 'when the github user does not have keys' do
-      let(:parsed_response) { [] }
+      let(:body) { [] }
 
       it 'returns an empty array' do
         expect(subject.keys).to eq []
@@ -88,14 +88,16 @@ describe Github::Auth::KeysClient do
     end
 
     context 'when there is an issue connecting to Github' do
-      [SocketError, Errno::ECONNREFUSED].each do |exception|
-        before { http_client.stub(:get).and_raise exception }
+      before do
+        http_client
+          .stub(:get)
+          .and_raise Faraday::Error::ConnectionFailed.new('Oops!')
+      end
 
-        it 'raises a GithubUnavailableError' do
-          expect {
-            subject.keys
-          }.to raise_error Github::Auth::KeysClient::GithubUnavailableError
-        end
+      it 'raises a GithubUnavailableError' do
+        expect {
+          subject.keys
+        }.to raise_error Github::Auth::KeysClient::GithubUnavailableError
       end
     end
   end

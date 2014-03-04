@@ -1,5 +1,6 @@
 require 'cgi'
-require 'httparty'
+require 'json'
+require 'faraday'
 
 module Github::Auth
   # Client for fetching public SSH keys using the Github API
@@ -35,17 +36,18 @@ module Github::Auth
     private
 
     def github_response
-      response = http_client.get(
+      response = http_client.get \
         "#{hostname}/users/#{username}/keys", headers: headers
-      )
-      raise GithubUserDoesNotExistError if response.code == 404
-      response.parsed_response
-    rescue SocketError, Errno::ECONNREFUSED => e
+
+      raise GithubUserDoesNotExistError if response.status == 404
+
+      JSON.parse response.body
+    rescue Faraday::Error => e
       raise GithubUnavailableError, e
     end
 
     def http_client
-      HTTParty
+      Faraday
     end
 
     def headers
