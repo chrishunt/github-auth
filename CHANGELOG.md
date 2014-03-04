@@ -1,5 +1,11 @@
 # Changelog
 
+##v3.1.0
+*2014-03-04*
+
+- [Use Faraday instead of HTTParty](https://github.com/chrishunt/github-auth/pull/31)
+- [Update gems](https://github.com/chrishunt/github-auth/pull/32)
+
 ##v3.0.2
 *2014-01-19*
 
