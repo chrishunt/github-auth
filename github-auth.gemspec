@@ -26,7 +26,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'pry',            '~> 0.9.12.6'
   spec.add_development_dependency 'rake',           '~> 10.3.2'
   spec.add_development_dependency 'rspec',          '~> 2.14.1'
-  spec.add_development_dependency 'sinatra',        '~> 1.4.4'
+  spec.add_development_dependency 'sinatra',        '~> 1.4.5'
   spec.add_development_dependency 'thin',           '~> 1.6.2'
 
   spec.add_runtime_dependency 'faraday', '~> 0.9.0'
