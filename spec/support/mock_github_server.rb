@@ -4,11 +4,11 @@ require 'json'
 
 require 'github/auth/key'
 
-module Github::Auth
-  class MockGithubServer < Sinatra::Base
+module GitHub::Auth
+  class MockGitHubServer < Sinatra::Base
     KEYS = [
-      Github::Auth::Key.new('chrishunt', 'abc123'),
-      Github::Auth::Key.new('chrishunt', 'def456')
+      GitHub::Auth::Key.new('chrishunt', 'abc123'),
+      GitHub::Auth::Key.new('chrishunt', 'def456')
     ]
 
     set :port, 8001
@@ -29,8 +29,8 @@ module Github::Auth
 end
 
 def with_mock_github_server
-  hostname = "http://localhost:#{Github::Auth::MockGithubServer.port}"
-  Thread.new { Github::Auth::MockGithubServer.run! }
+  hostname = "http://localhost:#{GitHub::Auth::MockGitHubServer.port}"
+  Thread.new { GitHub::Auth::MockGitHubServer.run! }
 
   while true
     begin
@@ -41,5 +41,5 @@ def with_mock_github_server
     end
   end
 
-  yield hostname, Github::Auth::MockGithubServer::KEYS
+  yield hostname, GitHub::Auth::MockGitHubServer::KEYS
 end

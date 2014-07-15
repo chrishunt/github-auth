@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'support/mock_github_server'
 require 'github/auth'
 
-describe Github::Auth::CLI do
+describe GitHub::Auth::CLI do
   with_mock_github_server do |mock_server_hostname, mock_keys|
     let(:hostname) { mock_server_hostname }
     let(:keys_file) { Tempfile.new 'authorized_keys' }
@@ -59,7 +59,7 @@ describe Github::Auth::CLI do
         cli %w(version)
       end
 
-      expect(output).to include Github::Auth::VERSION
+      expect(output).to include GitHub::Auth::VERSION
     end
   end
 end

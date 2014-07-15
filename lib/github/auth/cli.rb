@@ -1,6 +1,6 @@
 require 'thor'
 
-module Github::Auth
+module GitHub::Auth
   # Command Line Interface for parsing and executing commands
   class CLI < Thor
     class_option :host, type: :string
@@ -58,7 +58,7 @@ module Github::Auth
 
     desc 'version', 'Show gh-auth version'
     def version
-      puts Github::Auth::VERSION
+      puts GitHub::Auth::VERSION
     end
 
     private
@@ -89,29 +89,29 @@ module Github::Auth
     end
 
     def keys_for(username)
-      Github::Auth::KeysClient.new(
+      GitHub::Auth::KeysClient.new(
         hostname: github_hostname,
         username: username
       ).keys
-    rescue Github::Auth::KeysClient::GithubUserDoesNotExistError
-      puts "Github user '#{username}' does not exist"
-    rescue Github::Auth::KeysClient::GithubUnavailableError
-      puts "Github appears to be unavailable :("
+    rescue GitHub::Auth::KeysClient::GitHubUserDoesNotExistError
+      puts "GitHub user '#{username}' does not exist"
+    rescue GitHub::Auth::KeysClient::GitHubUnavailableError
+      puts "GitHub appears to be unavailable :("
       puts
       puts "https://status.github.com"
     end
 
     def keys_file(options = {})
-      Github::Auth::KeysFile.new \
+      GitHub::Auth::KeysFile.new \
         options.merge path: keys_file_path
     end
 
     def keys_file_path
-      options[:path] || Github::Auth::KeysFile::DEFAULT_PATH
+      options[:path] || GitHub::Auth::KeysFile::DEFAULT_PATH
     end
 
     def github_hostname
-      options[:host] || Github::Auth::KeysClient::DEFAULT_HOSTNAME
+      options[:host] || GitHub::Auth::KeysClient::DEFAULT_HOSTNAME
     end
   end
 end

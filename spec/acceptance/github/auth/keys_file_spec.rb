@@ -2,14 +2,14 @@ require 'tempfile'
 require 'spec_helper'
 require 'github/auth'
 
-describe Github::Auth::KeysFile do
+describe GitHub::Auth::KeysFile do
   it 'writes and deletes keys from the keys file' do
     tempfile  = Tempfile.new 'authorized_keys'
     keys_file = described_class.new path: tempfile.path
 
     keys = [
-      Github::Auth::Key.new('chris', 'abc123'),
-      Github::Auth::Key.new('doug', 'def456')
+      GitHub::Auth::Key.new('chris', 'abc123'),
+      GitHub::Auth::Key.new('doug', 'def456')
     ]
 
     keys_file.write! keys
