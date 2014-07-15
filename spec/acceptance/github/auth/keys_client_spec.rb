@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'support/mock_github_server'
 require 'github/auth'
 
-describe Github::Auth::KeysClient do
+describe GitHub::Auth::KeysClient do
   it 'fetches all keys for the given github user' do
     with_mock_github_server do |hostname, keys|
       client = described_class.new(

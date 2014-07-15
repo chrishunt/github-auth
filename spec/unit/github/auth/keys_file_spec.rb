@@ -3,7 +3,7 @@ require 'tempfile'
 require 'github/auth/key'
 require 'github/auth/keys_file'
 
-describe Github::Auth::KeysFile do
+describe GitHub::Auth::KeysFile do
   subject { described_class.new(options) }
 
   let(:keys_file) { Tempfile.new 'authorized_keys' }
@@ -65,23 +65,23 @@ describe Github::Auth::KeysFile do
 
     context 'with many keys' do
       let(:keys) {[
-        Github::Auth::Key.new('chris', 'abc123'),
-        Github::Auth::Key.new('chris', 'def456'),
-        Github::Auth::Key.new('doug', 'ghi789')
+        GitHub::Auth::Key.new('chris', 'abc123'),
+        GitHub::Auth::Key.new('chris', 'def456'),
+        GitHub::Auth::Key.new('doug', 'ghi789')
       ]}
 
       it_should_behave_like 'a successful key addition'
     end
 
     context 'with a single key' do
-      let(:keys) {[ Github::Auth::Key.new('chris', 'abc123') ]}
+      let(:keys) {[ GitHub::Auth::Key.new('chris', 'abc123') ]}
 
       it_should_behave_like 'a successful key addition'
     end
 
     context 'with an ssh command' do
       let(:options) {{ path: path, command: 'tmux attach' }}
-      let(:keys) {[ Github::Auth::Key.new('chris', 'abc123') ]}
+      let(:keys) {[ GitHub::Auth::Key.new('chris', 'abc123') ]}
 
       it_should_behave_like 'a successful key addition'
 
@@ -94,7 +94,7 @@ describe Github::Auth::KeysFile do
 
     context 'with existing keys in the keys file' do
       let(:existing_keys) { %w(abc123 def456 ghi789) }
-      let(:keys) {[ Github::Auth::Key.new('chris', 'jkl012') ]}
+      let(:keys) {[ GitHub::Auth::Key.new('chris', 'jkl012') ]}
 
       before do
         keys_file.write existing_keys.join("\n")
@@ -115,7 +115,7 @@ describe Github::Auth::KeysFile do
       end
 
       it 'does not write duplicate keys into the keys file' do
-        subject.write! Github::Auth::Key.new('chris', existing_keys.first)
+        subject.write! GitHub::Auth::Key.new('chris', existing_keys.first)
 
         expect(keys_file.readlines.count).to eq existing_keys.count
       end
@@ -126,8 +126,8 @@ describe Github::Auth::KeysFile do
 
       it 'raises PermissionDeniedError' do
         expect {
-          subject.write! Github::Auth::Key.new('chris', 'abc123')
-        }.to raise_error Github::Auth::KeysFile::PermissionDeniedError
+          subject.write! GitHub::Auth::Key.new('chris', 'abc123')
+        }.to raise_error GitHub::Auth::KeysFile::PermissionDeniedError
       end
     end
 
@@ -137,16 +137,16 @@ describe Github::Auth::KeysFile do
       it 'raises FileDoesNotExistError' do
         expect {
           subject.write! %w(abc123 def456)
-        }.to raise_error Github::Auth::KeysFile::FileDoesNotExistError
+        }.to raise_error GitHub::Auth::KeysFile::FileDoesNotExistError
       end
     end
   end
 
   describe '#delete!' do
     let(:keys) {[
-      Github::Auth::Key.new('chris', 'abc123'),
-      Github::Auth::Key.new('chris', 'def456'),
-      Github::Auth::Key.new('doug', 'ghi789')
+      GitHub::Auth::Key.new('chris', 'abc123'),
+      GitHub::Auth::Key.new('chris', 'def456'),
+      GitHub::Auth::Key.new('doug', 'ghi789')
     ]}
 
     before do
@@ -198,7 +198,7 @@ describe Github::Auth::KeysFile do
     end
 
     context 'when the keys file does not have the key' do
-      let(:key) { Github::Auth::Key.new('sallie', 'not-in-the-keys-file') }
+      let(:key) { GitHub::Auth::Key.new('sallie', 'not-in-the-keys-file') }
 
       it 'does not modify the keys file' do
         keys_file.read.tap do |original_keys_file_content|
@@ -214,9 +214,9 @@ describe Github::Auth::KeysFile do
 
   describe '#github_users' do
     let(:keys) {[
-      Github::Auth::Key.new('jay',   'abc123'),
-      Github::Auth::Key.new('chris', 'def456'),
-      Github::Auth::Key.new('chris', 'ghi789'),
+      GitHub::Auth::Key.new('jay',   'abc123'),
+      GitHub::Auth::Key.new('chris', 'def456'),
+      GitHub::Auth::Key.new('chris', 'ghi789'),
     ]}
 
     before do

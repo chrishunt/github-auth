@@ -2,14 +2,14 @@ require 'cgi'
 require 'json'
 require 'faraday'
 
-module Github::Auth
-  # Client for fetching public SSH keys using the Github API
+module GitHub::Auth
+  # Client for fetching public SSH keys using the GitHub API
   class KeysClient
     attr_reader :username, :hostname
 
     UsernameRequiredError = Class.new StandardError
-    GithubUnavailableError = Class.new StandardError
-    GithubUserDoesNotExistError = Class.new StandardError
+    GitHubUnavailableError = Class.new StandardError
+    GitHubUserDoesNotExistError = Class.new StandardError
 
     DEFAULT_HOSTNAME = 'https://api.github.com'
     USER_AGENT = "github_auth-#{VERSION}"
@@ -29,7 +29,7 @@ module Github::Auth
 
     def keys
       @keys ||= Array(github_response).map do |entry|
-        Github::Auth::Key.new username, entry.fetch('key')
+        GitHub::Auth::Key.new username, entry.fetch('key')
       end
     end
 
@@ -39,11 +39,11 @@ module Github::Auth
       response = http_client.get \
         "#{hostname}/users/#{username}/keys", headers: headers
 
-      raise GithubUserDoesNotExistError if response.status == 404
+      raise GitHubUserDoesNotExistError if response.status == 404
 
       JSON.parse response.body
     rescue Faraday::Error => e
-      raise GithubUnavailableError, e
+      raise GitHubUnavailableError, e
     end
 
     def http_client

@@ -5,11 +5,11 @@ require 'github/auth/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'github-auth'
-  spec.version       = Github::Auth::VERSION
+  spec.version       = GitHub::Auth::VERSION
   spec.authors       = ['Chris Hunt']
   spec.email         = ['c@chrishunt.co']
-  spec.description   = %q{SSH key management for Github users}
-  spec.summary       = %q{SSH key management for Github users}
+  spec.description   = %q{SSH key management for GitHub users}
+  spec.summary       = %q{SSH key management for GitHub users}
   spec.homepage      = 'https://github.com/chrishunt/github-auth'
   spec.license       = 'MIT'
 
