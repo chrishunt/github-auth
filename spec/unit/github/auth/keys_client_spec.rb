@@ -16,7 +16,7 @@ describe Github::Auth::KeysClient do
     })
   }
 
-  before { subject.stub(http_client: http_client) }
+  before { allow(subject).to receive(:http_client).and_return(http_client) }
 
   describe '#initialize' do
     it 'requires a username' do
@@ -42,7 +42,7 @@ describe Github::Auth::KeysClient do
 
   describe '#keys' do
     it 'requests keys from the Github API' do
-      http_client.should_receive(:get).with(
+      expect(http_client).to receive(:get).with(
         "https://api.github.com/users/#{username}/keys",
         { headers: { 'User-Agent' => "github_auth-#{Github::Auth::VERSION}" } }
       )
@@ -50,7 +50,7 @@ describe Github::Auth::KeysClient do
     end
 
     it 'memoizes the response' do
-      http_client.should_receive(:get).once
+      expect(http_client).to receive(:get).once
       2.times { subject.keys }
     end
 
@@ -89,8 +89,8 @@ describe Github::Auth::KeysClient do
 
     context 'when there is an issue connecting to Github' do
       before do
-        http_client
-          .stub(:get)
+        expect(http_client)
+          .to receive(:get)
           .and_raise Faraday::Error::ConnectionFailed.new('Oops!')
       end
 
