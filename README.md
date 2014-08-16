@@ -1,7 +1,6 @@
 # github-auth
 
 [![Travis CI](https://travis-ci.org/chrishunt/github-auth.png)](https://travis-ci.org/chrishunt/github-auth)
-[![Coverage Status](https://coveralls.io/repos/chrishunt/github-auth/badge.png?branch=master)](https://coveralls.io/r/chrishunt/github-auth)
 [![Code Climate](https://codeclimate.com/github/chrishunt/github-auth.png)](https://codeclimate.com/github/chrishunt/github-auth)
 
 ### Pairing with strangers has never been so good.
