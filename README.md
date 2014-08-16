@@ -1,7 +1,8 @@
 # github-auth
 
-[![Travis CI](https://travis-ci.org/chrishunt/github-auth.png)](https://travis-ci.org/chrishunt/github-auth)
-[![Code Climate](https://codeclimate.com/github/chrishunt/github-auth.png)](https://codeclimate.com/github/chrishunt/github-auth)
+[![](http://img.shields.io/travis/chrishunt/github-auth.svg?style=flat)](https://travis-ci.org/chrishunt/github-auth)
+[![](http://img.shields.io/codeclimate/github/chrishunt/github-auth.svg?style=flat)](https://codeclimate.com/github/chrishunt/github-auth)
+[![](http://img.shields.io/gem/v/github-auth.svg?style=flat)](http://rubygems.org/gems/github-auth)
 
 ### Pairing with strangers has never been so good.
 
