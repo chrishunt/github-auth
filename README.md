@@ -238,7 +238,7 @@ $ su - pair
 You can get your external IP address with:
 
 ```bash
-$ curl http://remote-ip.herokuapp.com
+$ curl http://checkip.amazonaws.com/
 ```
 
 ### It's still not working! :(
