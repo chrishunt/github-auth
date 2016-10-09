@@ -22,7 +22,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'cane',           '~> 3.0.0'
   spec.add_development_dependency 'cane-hashcheck', '~> 1.2.0'
   spec.add_development_dependency 'mute',           '~> 1.1.0'
-  spec.add_development_dependency 'pry',            '~> 0.10.1'
+  spec.add_development_dependency 'pry',            '~> 0.10.4'
   spec.add_development_dependency 'rake',           '~> 10.4.2'
   spec.add_development_dependency 'rspec',          '~> 3.3.0'
   spec.add_development_dependency 'sinatra',        '~> 1.4.6'
