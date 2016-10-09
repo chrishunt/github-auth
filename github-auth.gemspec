@@ -24,7 +24,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'mute',           '~> 1.1.0'
   spec.add_development_dependency 'pry',            '~> 0.10.4'
   spec.add_development_dependency 'rake',           '~> 11.3.0'
-  spec.add_development_dependency 'rspec',          '~> 3.3.0'
+  spec.add_development_dependency 'rspec',          '~> 3.5.0'
   spec.add_development_dependency 'sinatra',        '~> 1.4.6'
   spec.add_development_dependency 'thin',           '~> 1.6.3'
 
