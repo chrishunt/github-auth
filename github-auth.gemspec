@@ -18,16 +18,16 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
-  spec.add_development_dependency 'bundler',        '~> 1.10.6'
-  spec.add_development_dependency 'cane',           '~> 2.6.2'
+  spec.add_development_dependency 'bundler',        '~> 1.13.2'
+  spec.add_development_dependency 'cane',           '~> 3.0.0'
   spec.add_development_dependency 'cane-hashcheck', '~> 1.2.0'
   spec.add_development_dependency 'mute',           '~> 1.1.0'
-  spec.add_development_dependency 'pry',            '~> 0.10.1'
-  spec.add_development_dependency 'rake',           '~> 10.4.2'
-  spec.add_development_dependency 'rspec',          '~> 3.3.0'
-  spec.add_development_dependency 'sinatra',        '~> 1.4.6'
-  spec.add_development_dependency 'thin',           '~> 1.6.3'
+  spec.add_development_dependency 'pry',            '~> 0.10.4'
+  spec.add_development_dependency 'rake',           '~> 11.3.0'
+  spec.add_development_dependency 'rspec',          '~> 3.5.0'
+  spec.add_development_dependency 'sinatra',        '~> 1.4.7'
+  spec.add_development_dependency 'thin',           '~> 1.7.0'
 
-  spec.add_runtime_dependency 'faraday', '~> 0.9.1'
+  spec.add_runtime_dependency 'faraday', '~> 0.9.2'
   spec.add_runtime_dependency 'thor',    '~> 0.19.1'
 end
