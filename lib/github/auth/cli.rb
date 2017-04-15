@@ -8,6 +8,8 @@ module GitHub::Auth
 
     option :users, type: :array, required: true
     option :command, type: :string
+    option :ssh_options, type: :array
+    option :no_forwarding, type: :boolean
     desc 'add', 'Add GitHub users to authorized keys'
     long_desc <<-LONGDESC
         `gh-auth add` is used to add one or more GitHub user's public SSH keys
@@ -22,11 +24,23 @@ module GitHub::Auth
         the `--command` option.
 
         > $ gh-auth add --users=chrishunt --command="tmux attach"
+
+        You may also provide options for the key entry, such as preventing
+        port forwarding. To do this, include the `--ssh-options` option.
+
+        > $ gh-auth add --users=chrishunt --ssh-options=no-port-forwarding
+
+        To disable all forwarding for their connection, use the
+        `--no-forwarding` option.
+
+        > $ gh-auth add --users=chrishunt --no-forwarding
     LONGDESC
     def add
       on_keys_file :write!,
         "Adding #{keys.count} key(s) to '#{keys_file.path}'",
-        { command: options[:command] }
+        { command: options[:command],
+          ssh_options: options[:ssh_options],
+          no_forwarding: options[:no_forwarding] }
     end
 
     option :users, type: :array, required: true

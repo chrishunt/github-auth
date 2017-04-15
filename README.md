@@ -35,6 +35,24 @@ $ gh-auth add --users=chrishunt --command="tmux attach"
 Adding 2 key(s) to '/Users/chris/.ssh/authorized_keys'
 ```
 
+Allowing someone to SSH to your machine can be a scary thing. Restricting them
+to a single command goes a little way to help secure things. If you want to
+keep them from forwarding ports, you can use the `--ssh-options` option to
+add that to their key entry.
+
+```bash
+$ gh-auth add --users=chrishunt --ssh-options=no-port-forwarding
+Adding 2 key(s) to '/Users/chris/.ssh/authorized_keys'
+```
+
+As a convenience, you may also use the `--no-forwarding` option to prevent all
+forwarding (i.e. `no-port-forwarding,no-X11-forwarding,no-agent-forwarding`).
+
+```bash
+$ gh-auth add --users=chrishunt --no-forwarding
+Adding 2 key(s) to '/Users/chris/.ssh/authorized_keys'
+```
+
 That was easy! When we're done working, you can revoke my access with:
 
 ```bash
