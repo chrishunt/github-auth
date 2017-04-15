@@ -1,7 +1,7 @@
 module GitHub::Auth
   # Write and delete keys from the authorized_keys file
   class KeysFile
-    attr_reader :path, :command
+    attr_reader :path, :command, :lockdown
 
     PermissionDeniedError = Class.new StandardError
     FileDoesNotExistError = Class.new StandardError
@@ -10,7 +10,8 @@ module GitHub::Auth
 
     def initialize(options = {})
       @path = File.expand_path(options[:path] || DEFAULT_PATH)
-      @command = options[:command]
+      @command  = options[:command]
+      @lockdown = options.fetch(:lockdown){ false }
     end
 
     def write!(keys)
@@ -20,7 +21,7 @@ module GitHub::Auth
             unless keys_file_content.empty? || keys_file_content.end_with?("\n")
               keys_file.write "\n"
             end
-            keys_file.write "#{"command=\"#{command}\" " if command}#{key}\n"
+            keys_file.write key_line(key)
           end
         end
       end
@@ -68,6 +69,20 @@ module GitHub::Auth
 
         content << "\n" unless content.empty? || content.end_with?("\n")
       end
+    end
+
+    def key_line_prefixes
+      prefixes = []
+      prefixes << 'no-port-forwarding,no-X11-forwarding,no-agent-forwarding' if lockdown
+      prefixes << %Q{command="#{command}"} if command
+      prefixes.join(',')
+    end
+
+    def key_line(key)
+      line = []
+      line << key_line_prefixes unless key_line_prefixes.empty?
+      line << "#{key}\n"
+      line.join(' ')
     end
   end
 end
